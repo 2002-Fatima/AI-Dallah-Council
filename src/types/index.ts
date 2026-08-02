@@ -1,14 +1,6 @@
 export type UserRole = "restaurant_owner" | "customer";
 
-export interface UserProfile {
-  uid: string;
-  email: string;
-  role: UserRole;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface EarlyAccessSubmission {
+export type EarlyAccessSubmission = {
   firstName: string;
   lastName: string;
   email: string;
@@ -19,9 +11,9 @@ export interface EarlyAccessSubmission {
   role: UserRole;
   message?: string;
   createdAt: string;
-}
+};
 
-export interface ContactSalesSubmission {
+export type ContactSalesSubmission = {
   businessName: string;
   name: string;
   email: string;
@@ -29,23 +21,31 @@ export interface ContactSalesSubmission {
   country: string;
   message: string;
   createdAt: string;
-}
+};
 
-export interface EmailSubscription {
+export type EmailSubscription = {
   email: string;
   source: string;
   createdAt: string;
-}
+};
+
+export type UserProfile = {
+  uid: string;
+  email: string;
+  role: UserRole;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type RoadmapStatus = "completed" | "in_progress" | "planned";
 
-export interface RoadmapItem {
+export type RoadmapItem = {
   title: string;
   titleEn?: string;
   status: RoadmapStatus;
-}
+};
 
-export interface InsightArticle {
+export type InsightArticle = {
   slug: string;
   title: string;
   excerpt: string;
@@ -53,11 +53,12 @@ export interface InsightArticle {
   readTime: string;
   date: string;
   content: string[];
-}
+  image?: string;
+};
 
 export type AnalyticsEvent =
   | "early_access_click"
   | "login_click"
   | "contact_submission"
   | "cta_conversion"
-  | "page_view";
+  | "form_submit";

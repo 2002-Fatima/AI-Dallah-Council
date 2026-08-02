@@ -89,7 +89,7 @@ export default function RootLayout({
       <head>
         <StructuredData />
         <meta name="application-name" content={siteConfig.name} />
-        <meta name="apple-mobile-web-app-title" content={siteConfig.nameAr} />
+        <meta name="apple-mobile-web-app-title" content={siteConfig.name} />
         <meta property="og:locale:alternate" content="en_US" />
       </head>
       <body className="min-h-full bg-background font-sans text-foreground">

@@ -5,7 +5,7 @@ export function getOrganizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteConfig.name,
-    alternateName: siteConfig.nameAr,
+    alternateName: siteConfig.nameEn,
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.webp`,
     description: siteConfig.description,

@@ -29,3 +29,7 @@ export function trackLoginClick(source: string): void {
 export function trackContactSubmission(source: string): void {
   trackEvent("contact_submission", { source });
 }
+
+export function trackFormSubmit(form: string): void {
+  trackEvent("form_submit", { form });
+}

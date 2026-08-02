@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { LinkButton } from "@/components/ui/link-button";
-import { navLinks } from "@/lib/content";
+import { navLinks, siteConfig } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
 import { trackEarlyAccessClick, trackLoginClick } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -46,7 +46,7 @@ export function Header() {
         <Link href="/" className="group flex items-center gap-2">
           <Image
             src="/logo.webp"
-            alt="AI Dallah"
+            alt={siteConfig.name}
             width={100}
             height={100}
             className="h-auto w-auto"

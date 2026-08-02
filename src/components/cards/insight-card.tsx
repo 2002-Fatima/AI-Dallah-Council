@@ -14,13 +14,17 @@ export function InsightCard({ article }: InsightCardProps) {
     <Link href={`/insights/${article.slug}`} className="group block h-full">
       <Card className="h-full overflow-hidden border-border/50 bg-card/50 p-0 backdrop-blur transition-all hover:-translate-y-1 hover:border-gold/30 hover:shadow-xl hover:shadow-gold/5">
         <div className="relative aspect-[16/10] overflow-hidden">
-          <Image
-            src={article.image}
-            alt={article.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+          {article.image ? (
+            <Image
+              src={article.image}
+              alt={article.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-bl from-gold/20 via-card to-emerald/10" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
           <Badge className="absolute top-3 right-3 border-gold/30 bg-background/80 text-gold backdrop-blur">
             {article.category}

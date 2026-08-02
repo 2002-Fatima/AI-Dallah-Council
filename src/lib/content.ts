@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "AI Dallah",
-  nameAr: "مجلس الدلّة",
+  name: "مجلس الدلّة",
+  nameEn: "AI Dallah",
   tagline: "شغّل مطعمك بذكاء. مدعوم بالذكاء الاصطناعي. مبني للخليج.",
   taglineEn: "Run Your Restaurant Smarter. Powered by AI. Built for the Gulf.",
   description:
