@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Loader2, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { GoogleAuthButton } from "@/components/forms/google-auth-button";
 import { FormField } from "@/components/forms/form-field";
 import { signIn } from "@/lib/firebase/auth";
 import { isFirebaseConfigured } from "@/lib/firebase/config";
@@ -55,6 +56,19 @@ export function LoginForm() {
       onSubmit={handleSubmit}
       className="space-y-6"
     >
+      <GoogleAuthButton redirectTo={ROUTES.home} />
+
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-3 text-muted-foreground">
+            أو
+          </span>
+        </div>
+      </div>
       <FormField label="البريد الإلكتروني" htmlFor="email" required>
         <Input
           id="email"
