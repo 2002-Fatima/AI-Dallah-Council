@@ -13,16 +13,6 @@ export type EarlyAccessSubmission = {
   createdAt: string;
 };
 
-export type ContactSalesSubmission = {
-  businessName: string;
-  name: string;
-  email: string;
-  phone: string;
-  country: string;
-  message: string;
-  createdAt: string;
-};
-
 export type EmailSubscription = {
   email: string;
   source: string;

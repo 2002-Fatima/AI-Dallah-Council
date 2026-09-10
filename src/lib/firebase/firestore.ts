@@ -1,11 +1,7 @@
 import { addDoc, collection } from "firebase/firestore";
 import { getFirebaseDb, isFirebaseConfigured } from "./config";
 import { FIRESTORE_COLLECTIONS } from "@/lib/constants";
-import type {
-  ContactSalesSubmission,
-  EarlyAccessSubmission,
-  EmailSubscription,
-} from "@/types";
+import type { EarlyAccessSubmission, EmailSubscription } from "@/types";
 
 async function addDocument<T extends Record<string, unknown>>(
   collectionName: string,
@@ -21,15 +17,6 @@ export async function submitEarlyAccess(
   data: Omit<EarlyAccessSubmission, "createdAt">
 ): Promise<void> {
   await addDocument(FIRESTORE_COLLECTIONS.earlyAccess, {
-    ...data,
-    createdAt: new Date().toISOString(),
-  });
-}
-
-export async function submitContactSales(
-  data: Omit<ContactSalesSubmission, "createdAt">
-): Promise<void> {
-  await addDocument(FIRESTORE_COLLECTIONS.contactSales, {
     ...data,
     createdAt: new Date().toISOString(),
   });

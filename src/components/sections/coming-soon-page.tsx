@@ -76,9 +76,6 @@ export function ComingSoonPage({
                 انضم للوصول المبكر
                 <ArrowLeft className="size-4" />
               </LinkButton>
-              <LinkButton href={ROUTES.contactSales} variant="outline">
-                تواصل مع المبيعات
-              </LinkButton>
             </div>
           )}
         </FadeIn>

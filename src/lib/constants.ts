@@ -2,16 +2,11 @@ export const ROUTES = {
   home: "/",
   login: "/login",
   signup: "/signup",
-  onboarding: "/onboarding",
   earlyAccess: "/early-access",
-  contactSales: "/contact-sales",
   demo: "/demo",
-  pricing: "/pricing",
-  enterprise: "/enterprise",
-  platform: "/platform",
-  resources: "/resources",
   roadmap: "/roadmap",
   about: "/about",
+  vision: "/vision",
   insights: "/insights",
 } as const;
 
@@ -47,6 +42,5 @@ export const POS_SYSTEMS = [
 export const FIRESTORE_COLLECTIONS = {
   users: "users",
   earlyAccess: "earlyAccess",
-  contactSales: "contactSales",
   emailSubscriptions: "emailSubscriptions",
 } as const;

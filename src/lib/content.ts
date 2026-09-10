@@ -13,9 +13,9 @@ export const siteConfig = {
 };
 
 export const navLinks = [
-  { href: "/platform", label: "المنصة" },
   { href: "/#features", label: "المميزات" },
-  { href: "/pricing", label: "الأسعار" },
+  { href: "/vision", label: "الرؤية" },
+  { href: "/demo", label: "العرض التوضيحي" },
   { href: "/roadmap", label: "خارطة الطريق" },
   { href: "/about", label: "من نحن" },
   { href: "/insights", label: "رؤى" },
@@ -132,23 +132,17 @@ export const testimonials = [
 
 export const footerLinks = {
   product: [
-    { label: "المنصة", href: "/platform" },
+    { label: "العرض التوضيحي", href: "/demo" },
     { label: "المميزات", href: "/#features" },
-    { label: "الأسعار", href: "/pricing" },
-    { label: "المؤسسات", href: "/enterprise" },
+    { label: "الرؤية", href: "/vision" },
     { label: "خارطة الطريق", href: "/roadmap" },
   ],
   company: [
     { label: "من نحن", href: "/about" },
     { label: "الرؤى", href: "/insights" },
-    { label: "الموارد", href: "/resources" },
-    { label: "تواصل مع المبيعات", href: "/contact-sales" },
     { label: "الوصول المبكر", href: "/early-access" },
   ],
-  legal: [
-    { label: "سياسة الخصوصية", href: "/resources" },
-    { label: "الشروط والأحكام", href: "/resources" },
-  ],
+  legal: [] as { label: string; href: string }[],
 };
 
 export const roadmapItems = {
@@ -282,33 +276,5 @@ export const comingSoonPages = {
     description:
       "نعمل على عرض توضيحي تفاعلي يُظهر كيف تبسّط منصتنا عمليات مطعمك — من لوحة التحكم إلى الامتثال والمدفوعات.",
     badge: "قيد الإعداد",
-  },
-  pricing: {
-    title: "الأسعار",
-    subtitle: "خطط مرنة لمطاعم كل الأحجام",
-    description:
-      "نصمّم باقات تناسب المطاعم الفردية والسلاسل الكبيرة. سجّل في الوصول المبكر لتكون أول من يعرف الأسعار.",
-    badge: "قريباً",
-  },
-  enterprise: {
-    title: "المؤسسات",
-    subtitle: "حلول مخصصة لسلاسل المطاعم الكبرى",
-    description:
-      "إدارة متعددة الفروع، تكاملات مخصصة، ودعم مخصص — تواصل مع فريق المبيعات لمعرفة المزيد.",
-    badge: "تواصل معنا",
-  },
-  platform: {
-    title: "المنصة",
-    subtitle: "نظام تشغيل واحد لكل سير عمل مطعمك",
-    description:
-      "عمليات، مدفوعات، امتثال، تحليلات، وأتمتة — في منصة عربية واحدة مبنية للخليج.",
-    badge: "قيد التطوير",
-  },
-  resources: {
-    title: "الموارد",
-    subtitle: "أدلة، وثائق، ومحتوى تعليمي",
-    description:
-      "نبني مكتبة موارد شاملة لأصحاب المطاعم — من دليل ZATCA إلى أفضل ممارسات التشغيل.",
-    badge: "قريباً",
   },
 };

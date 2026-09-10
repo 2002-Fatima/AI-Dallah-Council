@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, Mail } from "lucide-react";
+import { ArrowLeft, Play } from "lucide-react";
 import { LinkButton } from "@/components/ui/link-button";
 import { FadeIn } from "@/components/shared/fade-in";
 import { ROUTES } from "@/lib/constants";
@@ -51,14 +51,14 @@ export function CtaSection() {
                   <ArrowLeft className="size-4" />
                 </LinkButton>
                 <LinkButton
-                  href={ROUTES.contactSales}
+                  href={ROUTES.demo}
                   variant="outline"
                   size="lg"
                   className="h-12 w-full border-border/60 sm:w-auto"
-                  onClick={() => trackCtaClick("contact_sales", ROUTES.contactSales)}
+                  onClick={() => trackCtaClick("watch_demo", ROUTES.demo)}
                 >
-                  <Mail className="size-4" />
-                  تواصل مع فريق المبيعات
+                  <Play className="size-4 fill-current" />
+                  شاهد العرض التوضيحي
                 </LinkButton>
               </div>
 

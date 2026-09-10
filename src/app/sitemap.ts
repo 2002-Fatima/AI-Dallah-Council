@@ -8,17 +8,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     ROUTES.home,
     ROUTES.about,
-    ROUTES.earlyAccess,
-    ROUTES.contactSales,
-    ROUTES.login,
-    ROUTES.signup,
+    ROUTES.vision,
+    ROUTES.demo,
     ROUTES.roadmap,
     ROUTES.insights,
-    ROUTES.demo,
-    ROUTES.pricing,
-    ROUTES.enterprise,
-    ROUTES.platform,
-    ROUTES.resources,
+    ROUTES.earlyAccess,
   ];
 
   const insightPages = insightArticles.map((a) => `/insights/${a.slug}`);

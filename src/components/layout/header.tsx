@@ -45,7 +45,7 @@ export function Header() {
       >
         <Link href="/" className="group flex items-center gap-2">
           <Image
-            src="/logo.webp"
+            src="/Dallah-council-logo.webp"
             alt={siteConfig.name}
             width={100}
             height={100}

@@ -11,7 +11,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-2">
-              <Image src="/logo.webp" alt="logo" width={100} height={100} className="w-auto h-auto" />
+              <Image src="/Dallah-council-logo.webp" alt="logo" width={100} height={100} className="w-auto h-auto" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               {siteConfig.description}
@@ -50,21 +50,23 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-gold">قانوني</h4>
-            <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {footerLinks.legal.length > 0 && (
+            <div>
+              <h4 className="mb-4 text-sm font-semibold text-gold">قانوني</h4>
+              <ul className="space-y-3">
+                {footerLinks.legal.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 sm:flex-row">

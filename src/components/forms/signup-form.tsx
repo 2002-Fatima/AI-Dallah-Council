@@ -41,7 +41,7 @@ export function SignupForm() {
         return;
       }
       await signUp(email, password);
-      router.push(ROUTES.onboarding);
+      router.push(ROUTES.earlyAccess);
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
       if (message.includes("email-already-in-use")) {
@@ -63,7 +63,7 @@ export function SignupForm() {
       onSubmit={handleSubmit}
       className="space-y-6"
     >
-      <GoogleAuthButton redirectTo={ROUTES.onboarding} />
+      <GoogleAuthButton redirectTo={ROUTES.earlyAccess} />
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
