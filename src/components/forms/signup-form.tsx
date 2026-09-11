@@ -12,6 +12,7 @@ import { GoogleAuthButton } from "@/components/forms/google-auth-button";
 import { signUp } from "@/lib/firebase/auth";
 import { isFirebaseConfigured } from "@/lib/firebase/config";
 import { ROUTES } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 
 export function SignupForm() {
   const router = useRouter();
@@ -35,13 +36,15 @@ export function SignupForm() {
     }
 
     setLoading(true);
+    trackEvent("signup_started", { method: "email" });
     try {
       if (!isFirebaseConfigured()) {
         setError("Firebase غير مُعدّ. أضف متغيرات البيئة في .env.local");
         return;
       }
       await signUp(email, password);
-      router.push(ROUTES.earlyAccess);
+      trackEvent("signup_completed", { method: "email" });
+      router.push(ROUTES.home);
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
       if (message.includes("email-already-in-use")) {
@@ -63,7 +66,7 @@ export function SignupForm() {
       onSubmit={handleSubmit}
       className="space-y-6"
     >
-      <GoogleAuthButton redirectTo={ROUTES.earlyAccess} />
+      <GoogleAuthButton redirectTo={ROUTES.home} />
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">

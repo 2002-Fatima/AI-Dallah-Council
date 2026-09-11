@@ -8,7 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     ROUTES.home,
     ROUTES.about,
-    ROUTES.vision,
     ROUTES.demo,
     ROUTES.roadmap,
     ROUTES.insights,

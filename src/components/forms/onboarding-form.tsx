@@ -24,7 +24,7 @@ const roles = [
   {
     value: "customer" as UserRole,
     label: "عميل",
-    description: "أنا مهتم بالمنصة كمستخدم أو شريك",
+    description: "أنا مهتم بالمنصة كمستخدم أو مستكشف للمنتج",
     icon: User,
   },
 ];

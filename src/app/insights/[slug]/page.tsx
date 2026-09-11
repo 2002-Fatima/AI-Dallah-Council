@@ -74,7 +74,7 @@ export default async function InsightArticlePage({ params }: Props) {
         <div className="mt-12 rounded-2xl border border-gold/30 bg-gold/5 p-8 text-center">
           <h3 className="text-xl font-bold">مهتم بـ مجلس الدلّة؟</h3>
           <p className="mt-2 text-muted-foreground">
-            انضم لبرنامج الوصول المبكر وكن من أوائل الشركاء
+            شارك في التحقق من احتياجات مطاعم الخليج واتجاه المنتج
           </p>
           <LinkButton
             href={ROUTES.earlyAccess}

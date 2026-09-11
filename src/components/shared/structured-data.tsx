@@ -20,12 +20,8 @@ export function StructuredData() {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description: siteConfig.description,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "SAR",
-      description: "Early Access Program",
-    },
+    applicationSubCategory: "Arabic-first restaurant operations concept",
+    featureList: ["Arabic-first product concept", "Gulf restaurant workflows"],
     inLanguage: "ar",
   };
 

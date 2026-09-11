@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   keywords: [
     "مجلس الدلّة",
     "مطاعم الخليج",
-    "نظام تشغيل مطاعم",
-    "ZATCA",
-    "MADA",
+    "نظام تشغيل مطاعم مستقبلي",
+    "ZATCA product context",
+    "MADA product context",
     "ذكاء اصطناعي",
     "السعودية",
     "الإمارات",

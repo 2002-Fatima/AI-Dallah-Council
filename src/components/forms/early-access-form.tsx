@@ -24,7 +24,7 @@ import {
   RESTAURANT_SIZES,
   POS_SYSTEMS,
 } from "@/lib/constants";
-import { trackEarlyAccessClick } from "@/lib/analytics";
+import { trackEarlyAccessClick, trackEvent } from "@/lib/analytics";
 import type { UserRole } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -56,19 +56,22 @@ export function EarlyAccessForm() {
     trackEarlyAccessClick("early_access_form");
 
     try {
-      if (isFirebaseConfigured()) {
-        await submitEarlyAccess({
-          firstName: form.firstName.trim(),
-          lastName: form.lastName.trim(),
-          email: form.email.trim(),
-          country: form.country,
-          restaurantName: form.restaurantName.trim() || undefined,
-          restaurantSize: form.restaurantSize,
-          currentPos: form.currentPos || undefined,
-          role,
-          message: form.message.trim() || undefined,
-        });
+      if (!isFirebaseConfigured()) {
+        setError("الوصول المبكر غير متاح حالياً. حاول مرة أخرى لاحقاً.");
+        return;
       }
+      await submitEarlyAccess({
+        firstName: form.firstName.trim(),
+        lastName: form.lastName.trim(),
+        email: form.email.trim(),
+        country: form.country,
+        restaurantName: form.restaurantName.trim() || undefined,
+        restaurantSize: form.restaurantSize,
+        currentPos: form.currentPos || undefined,
+        role,
+        message: form.message.trim() || undefined,
+      });
+      trackEvent("early_access_submitted", { role, country: form.country });
       setSubmitted(true);
     } catch {
       setError("حدث خطأ في الإرسال. حاول مرة أخرى.");
@@ -81,7 +84,7 @@ export function EarlyAccessForm() {
     return (
       <SuccessState
         title="شكراً لك."
-        description="مجلس الدلّة ينضمّ حالياً أول شركاء المطاعم عبر منطقة الخليج. سنتواصل معك فور فتح الوصول المبكر."
+        description="وصلتنا معلوماتك وستساعدنا على فهم احتياجات مطاعم الخليج وتحديد أولويات المنتج. لا يمثل هذا التسجيل وعداً بإتاحة فورية."
       />
     );
   }

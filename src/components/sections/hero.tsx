@@ -115,8 +115,8 @@ export function HeroSection() {
                 ))}
               </span>
               <span className="text-sm text-muted-foreground">
-                <strong className="text-foreground">+٨٠</strong> مطعم في قائمة
-                الانتظار
+                <strong className="text-foreground">مرحلة تحقق</strong> لفهم
+                ما يستحق البناء أولاً
               </span>
             </div>
             <div className="flex items-center gap-1 text-gold">
@@ -124,7 +124,7 @@ export function HeroSection() {
                 <Star key={i} className="size-4 fill-gold" />
               ))}
               <span className="mr-1 text-sm text-muted-foreground">
-                مبني للخليج
+                مفهوم عربي أولاً
               </span>
             </div>
           </motion.div>
@@ -148,7 +148,7 @@ export function HeroSection() {
                 </span>
                 <div>
                   <p className="text-xs text-muted-foreground">كفاءة التشغيل</p>
-                  <p className="text-lg font-bold text-gold">+٢٨٪</p>
+                      <p className="text-lg font-bold text-gold">مفهوم</p>
                 </div>
               </div>
             </motion.div>
@@ -175,7 +175,7 @@ export function HeroSection() {
                   </span>
                   <div className="flex-1 text-start">
                     <p className="text-xs text-muted-foreground">
-                      لوحة التشغيل الموحدة
+                      تصور لوحة التشغيل الموحدة
                     </p>
                     <p className="text-sm font-medium">
                       طلبات · مدفوعات · امتثال · تحليلات — في مكان واحد
@@ -191,7 +191,7 @@ export function HeroSection() {
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4, repeat: Infinity }}
           >
-            <p className="text-xs text-emerald">متوافق مع</p>
+            <p className="text-xs text-emerald">مسارات مستقبلية</p>
             <p className="font-semibold">ZATCA · MADA</p>
           </motion.div>
         </motion.div>

@@ -3,10 +3,9 @@ export const ROUTES = {
   login: "/login",
   signup: "/signup",
   earlyAccess: "/early-access",
+  about: "/about",
   demo: "/demo",
   roadmap: "/roadmap",
-  about: "/about",
-  vision: "/vision",
   insights: "/insights",
 } as const;
 

@@ -16,7 +16,7 @@ export default function AboutPage() {
         badge="قصتنا"
         title="من نحن"
         subtitle="نبني مستقبل تشغيل المطاعم في الخليج"
-        description="AI Dallah — The AI Operating System for Gulf Restaurants"
+        description="AI Dallah — an Arabic-first AI operating system concept for Gulf restaurants"
       />
       <AboutContent />
     </PageLayout>

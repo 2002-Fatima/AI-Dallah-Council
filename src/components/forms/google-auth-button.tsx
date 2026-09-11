@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signInWithGoogle } from "@/lib/firebase/auth";
 import { ROUTES } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 
 type Props = {
   redirectTo?: string;
@@ -21,9 +22,11 @@ export function GoogleAuthButton({
   async function handleGoogleLogin() {
     try {
       setLoading(true);
+      trackEvent("signup_started", { method: "google" });
 
       await signInWithGoogle();
 
+      trackEvent("signup_completed", { method: "google" });
       router.push(redirectTo);
     } catch (error) {
       console.error(error);

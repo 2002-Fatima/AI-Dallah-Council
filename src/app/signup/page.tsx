@@ -15,7 +15,7 @@ export default function SignupPage() {
       <PageHero
         badge="ابدأ الآن"
         title="إنشاء حساب"
-        description="انضم إلى مجتمع مجلس الدلّة — أصحاب مطاعم وشركاء في الخليج"
+        description="أنشئ حساباً في مجلس الدلّة لاستكشاف رؤية نظام تشغيل عربي أولاً لمطاعم الخليج"
       />
       <div className="mx-auto max-w-md px-4 pb-24 sm:px-6">
         <div className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur">

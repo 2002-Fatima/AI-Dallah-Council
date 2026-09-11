@@ -47,6 +47,9 @@ export type InsightArticle = {
 };
 
 export type AnalyticsEvent =
+  | "early_access_submitted"
+  | "signup_started"
+  | "signup_completed"
   | "early_access_click"
   | "login_click"
   | "contact_submission"

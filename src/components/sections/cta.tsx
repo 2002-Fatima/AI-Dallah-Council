@@ -29,15 +29,16 @@ export function CtaSection() {
               </span>
 
               <h2 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
-                كن من أوائل شركاء
+                ساعدنا نحدد ما يستحق البناء
                 <span className="mt-2 block bg-gradient-to-l from-gold to-gold-light bg-clip-text text-transparent">
-                  مجلس الدلّة في الخليج
+                  لمطاعم الخليج
                 </span>
               </h2>
 
               <p className="mt-4 text-lg text-muted-foreground">
-                نضمّ حالياً أول شركاء المطاعم عبر المنطقة. سجّل اهتمامك
-                وسنتواصل معك فور فتح الوصول المبكر.
+                شاركنا سياق مطعمك وتحدياته لمساعدتنا على التحقق من المشكلة
+                وتحديد أولويات المنتج. الوصول المبكر هنا وسيلة للتعلم، وليس
+                وعداً بإطلاق أو شراكة.
               </p>
 
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -63,7 +64,7 @@ export function CtaSection() {
               </div>
 
               <p className="mt-6 text-xs text-muted-foreground">
-                بدون التزام · أولوية للشركاء المبكرين · دعم عربي مخصص
+                بدون التزام · للمساعدة في التحقق · لا يوجد وعد بإتاحة فورية
               </p>
             </div>
           </motion.div>

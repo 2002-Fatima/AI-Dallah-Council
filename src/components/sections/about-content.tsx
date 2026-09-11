@@ -93,8 +93,8 @@ export function AboutContent() {
                 <ul className="mt-8 space-y-4">
                   {[
                     "عربي أولاً — RTL، ثقافة محلية، مصطلحات خليجية",
-                    "مبني للخليج — ZATCA، MADA، موسمية رمضان والمناسبات",
-                    "شفاف — نشارك خارطة الطريق ونبني مع شركائنا المبكرين",
+                    "مبني للخليج — ندرس ZATCA وMADA وموسمية رمضان والمناسبات",
+                    "شفاف — نشارك خارطة الطريق ونختبر ما يستحق البناء أولاً",
                   ].map((point) => (
                     <li key={point} className="flex items-start gap-3 text-muted-foreground">
                       <Target className="mt-1 size-4 shrink-0 text-emerald" />

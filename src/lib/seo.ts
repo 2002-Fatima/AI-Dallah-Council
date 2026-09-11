@@ -34,12 +34,8 @@ export function getSoftwareApplicationJsonLd() {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description: siteConfig.description,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "SAR",
-      description: "برنامج الوصول المبكر",
-    },
+    applicationSubCategory: "Arabic-first restaurant operations concept",
+    featureList: ["Arabic-first product concept", "Gulf restaurant workflows"],
     audience: {
       "@type": "BusinessAudience",
       audienceType: "Restaurant owners in GCC",
