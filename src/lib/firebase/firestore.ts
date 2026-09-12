@@ -1,11 +1,7 @@
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { getFirebaseDb, isFirebaseConfigured } from "./config";
 import { FIRESTORE_COLLECTIONS } from "@/lib/constants";
-import type {
-  EarlyAccessSubmission,
-  EmailSubscription,
-  UserProfile,
-} from "@/types";
+import type { EmailSubscription, UserProfile } from "@/types";
 
 async function addDocument<T extends Record<string, unknown>>(
   collectionName: string,
@@ -15,15 +11,6 @@ async function addDocument<T extends Record<string, unknown>>(
     throw new Error("Firebase is not configured");
   }
   await addDoc(collection(getFirebaseDb(), collectionName), data);
-}
-
-export async function submitEarlyAccess(
-  data: Omit<EarlyAccessSubmission, "createdAt">
-): Promise<void> {
-  await addDocument(FIRESTORE_COLLECTIONS.earlyAccess, {
-    ...data,
-    createdAt: new Date().toISOString(),
-  });
 }
 
 export async function subscribeEmail(

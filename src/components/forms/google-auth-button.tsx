@@ -9,6 +9,7 @@ import { signInWithGoogle } from "@/lib/firebase/auth";
 import { ROUTES } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics";
 import { trackLoginClick } from "@/lib/analytics";
+import { GoogleIcon } from "@/components/shared/google-icon";
 
 type Props = {
   redirectTo?: string;
@@ -59,7 +60,7 @@ export function GoogleAuthButton({
           <Loader2 className="size-4 animate-spin" />
         ) : (
           <>
-            <img src="/icons/google.svg" alt="Google" className="h-5 w-5" />
+            <GoogleIcon className="h-5 w-5" />
             المتابعة باستخدام Google
           </>
         )}

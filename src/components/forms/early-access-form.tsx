@@ -17,8 +17,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { FormField } from "@/components/forms/form-field";
 import { SuccessState } from "@/components/forms/success-state";
-import { submitEarlyAccess } from "@/lib/firebase/firestore";
-import { isFirebaseConfigured } from "@/lib/firebase/config";
 import {
   GCC_COUNTRIES,
   RESTAURANT_SIZES,
@@ -29,7 +27,9 @@ import type { UserRole } from "@/types";
 import { cn } from "@/lib/utils";
 
 export function EarlyAccessForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionState, setSubmissionState] = useState<
+    "unknown" | "checking" | "submitted" | "already_submitted"
+  >("unknown");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [role, setRole] = useState<UserRole>("restaurant_owner");
@@ -47,44 +47,60 @@ export function EarlyAccessForm() {
 
   function update(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (field === "email") setSubmissionState("unknown");
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setSubmissionState("checking");
     trackEarlyAccessClick("early_access_form");
 
     try {
-      if (!isFirebaseConfigured()) {
-        setError("الوصول المبكر غير متاح حالياً. حاول مرة أخرى لاحقاً.");
+      const response = await fetch("/api/early-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          country: form.country,
+          restaurantName: form.restaurantName,
+          restaurantSize: form.restaurantSize,
+          currentPos: form.currentPos,
+          role,
+          message: form.message,
+        }),
+      });
+
+      const result = (await response.json()) as { result?: "created" | "already_exists" };
+      if (!response.ok || !result.result) {
+        throw new Error("Early Access submission failed");
+      }
+      if (result.result === "already_exists") {
+        setSubmissionState("already_submitted");
         return;
       }
-      await submitEarlyAccess({
-        firstName: form.firstName.trim(),
-        lastName: form.lastName.trim(),
-        email: form.email.trim(),
-        country: form.country,
-        restaurantName: form.restaurantName.trim() || undefined,
-        restaurantSize: form.restaurantSize,
-        currentPos: form.currentPos || undefined,
-        role,
-        message: form.message.trim() || undefined,
-      });
       trackEvent("early_access_submitted", { role, country: form.country });
-      setSubmitted(true);
+      setSubmissionState("submitted");
     } catch {
-      setError("حدث خطأ في الإرسال. حاول مرة أخرى.");
+      setSubmissionState("unknown");
+      setError("الوصول المبكر غير متاح حالياً. حاول مرة أخرى لاحقاً.");
     } finally {
       setLoading(false);
     }
   }
 
-  if (submitted) {
+  if (submissionState === "submitted" || submissionState === "already_submitted") {
     return (
       <SuccessState
-        title="شكراً لك."
-        description="وصلتنا معلوماتك وستساعدنا على فهم احتياجات مطاعم الخليج وتحديد أولويات المنتج. لا يمثل هذا التسجيل وعداً بإتاحة فورية."
+        title={submissionState === "already_submitted" ? "تم إرسال طلبك مسبقاً." : "تم تسجيل اهتمامك."}
+        description={
+          submissionState === "already_submitted"
+            ? "تم إرسال طلب بهذا البريد الإلكتروني مسبقاً. سنبقيك على اطلاع بما نبنيه لاحقاً."
+            : "تم إرسال طلبك بنجاح. سنبقيك على اطلاع بما نبنيه لاحقاً، دون أن يمثل ذلك قبولاً أو وعداً بإتاحة فورية."
+        }
       />
     );
   }
@@ -128,7 +144,9 @@ export function EarlyAccessForm() {
           className="h-11"
         />
       </FormField>
-
+      {submissionState === "checking" && (
+        <p className="text-sm text-muted-foreground">جارٍ التحقق من الطلبات السابقة...</p>
+      )}
       <FormField label="الدولة" htmlFor="country" required>
         <Select value={form.country} onValueChange={(v) => update("country", v ?? "")} required>
           <SelectTrigger className="h-11 w-full">
@@ -235,7 +253,7 @@ export function EarlyAccessForm() {
 
       <Button
         type="submit"
-        disabled={loading}
+        disabled={loading || submissionState === "checking"}
         className="h-12 w-full bg-gradient-to-l from-gold to-gold-dim text-base font-semibold text-background hover:opacity-90"
       >
         {loading ? (
