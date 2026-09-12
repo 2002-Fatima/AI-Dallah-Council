@@ -26,7 +26,7 @@ export function ComingSoonPage({
   showEarlyAccess = true,
 }: ComingSoonPageProps) {
   return (
-    <div className="relative min-h-[80vh] py-24 md:py-32">
+    <div className="relative min-h-[80vh] overflow-hidden py-24 md:py-32">
       <motion.div
         className="pointer-events-none absolute top-1/4 right-1/4 size-96 rounded-full bg-gold/8 blur-[120px]"
         animate={{ opacity: [0.3, 0.6, 0.3] }}

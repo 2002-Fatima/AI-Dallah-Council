@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -13,6 +13,7 @@ import { signIn } from "@/lib/firebase/auth";
 import { isFirebaseConfigured } from "@/lib/firebase/config";
 import { ROUTES } from "@/lib/constants";
 import { trackLoginClick } from "@/lib/analytics";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export function LoginForm() {
   const router = useRouter();
@@ -20,6 +21,13 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user, loading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(ROUTES.home);
+    }
+  }, [authLoading, router, user]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,6 +57,10 @@ export function LoginForm() {
     }
   }
 
+  if (authLoading || user) {
+    return <p className="py-8 text-center text-muted-foreground">جارٍ التحقق من الحساب...</p>;
+  }
+
   return (
     <motion.form
       initial={{ opacity: 0, y: 20 }}
@@ -56,7 +68,7 @@ export function LoginForm() {
       onSubmit={handleSubmit}
       className="space-y-6"
     >
-      <GoogleAuthButton redirectTo={ROUTES.home} />
+      <GoogleAuthButton redirectTo={ROUTES.home} mode="login" />
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">

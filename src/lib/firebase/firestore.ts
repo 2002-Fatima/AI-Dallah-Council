@@ -1,7 +1,11 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { getFirebaseDb, isFirebaseConfigured } from "./config";
 import { FIRESTORE_COLLECTIONS } from "@/lib/constants";
-import type { EarlyAccessSubmission, EmailSubscription } from "@/types";
+import type {
+  EarlyAccessSubmission,
+  EmailSubscription,
+  UserProfile,
+} from "@/types";
 
 async function addDocument<T extends Record<string, unknown>>(
   collectionName: string,
@@ -29,4 +33,13 @@ export async function subscribeEmail(
     ...data,
     createdAt: new Date().toISOString(),
   });
+}
+
+export async function getUserProfile(uid: string): Promise<UserProfile | null> {
+  if (!isFirebaseConfigured()) {
+    throw new Error("Firebase is not configured");
+  }
+
+  const snapshot = await getDoc(doc(getFirebaseDb(), FIRESTORE_COLLECTIONS.users, uid));
+  return snapshot.exists() ? (snapshot.data() as UserProfile) : null;
 }

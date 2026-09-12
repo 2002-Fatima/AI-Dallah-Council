@@ -4,6 +4,7 @@ import { Cairo } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/content";
 import { StructuredData } from "@/components/shared/structured-data";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -93,7 +94,7 @@ export default function RootLayout({
         <meta property="og:locale:alternate" content="en_US" />
       </head>
       <body className="min-h-full bg-background font-sans text-foreground">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <Analytics />
       </body>
     </html>

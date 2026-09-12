@@ -9,11 +9,15 @@ import { LinkButton } from "@/components/ui/link-button";
 import { navLinks, siteConfig } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
 import { trackEarlyAccessClick, trackLoginClick } from "@/lib/analytics";
+import { useAuth } from "@/components/providers/auth-provider";
 import { cn } from "@/lib/utils";
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const { user, loading: authLoading, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -27,6 +31,20 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  async function handleLogout() {
+    setLoggingOut(true);
+    try {
+      await logout();
+      setAccountOpen(false);
+      setOpen(false);
+    } finally {
+      setLoggingOut(false);
+    }
+  }
+
+  const accountName = user?.displayName || user?.email || "حسابك";
+  const accountInitial = accountName.trim().charAt(0).toUpperCase();
 
   return (
     <header
@@ -65,29 +83,86 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <LinkButton
-            href={ROUTES.login}
-            variant="ghost"
-            size="sm"
-            className="text-muted-foreground"
-            onClick={() => trackLoginClick("header")}
-          >
-            تسجيل الدخول
-          </LinkButton>
-          <LinkButton
-            href={ROUTES.earlyAccess}
-            size="lg"
-            className="bg-gradient-to-l from-gold to-gold-dim px-5 font-semibold text-background shadow-lg shadow-gold/25 hover:opacity-90"
-            onClick={() => trackEarlyAccessClick("header")}
-          >
-            انضم للوصول المبكر
-          </LinkButton>
+        <div className="hidden items-center gap-3 lg:flex">
+          {authLoading ? (
+            <div className="h-9 w-32 animate-pulse rounded-lg bg-muted" aria-hidden="true" />
+          ) : user ? (
+            <div className="relative">
+              <button
+                type="button"
+                className="flex h-10 items-center gap-2 rounded-lg border border-border/60 px-2 transition-colors hover:bg-muted"
+                aria-expanded={accountOpen}
+                aria-haspopup="menu"
+                onClick={() => setAccountOpen((current) => !current)}
+              >
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt="" className="size-7 rounded-full object-cover" />
+                ) : (
+                  <span className="flex size-7 items-center justify-center rounded-full bg-gold/15 text-xs font-bold text-gold">
+                    {accountInitial}
+                  </span>
+                )}
+                <span className="max-w-32 truncate text-sm">{accountName}</span>
+              </button>
+              {accountOpen && (
+                <div
+                  className="absolute left-0 top-full z-50 mt-2 w-48 rounded-xl border border-border/60 bg-background/95 p-2 shadow-xl backdrop-blur-xl"
+                  role="menu"
+                >
+                  <Link
+                    href={ROUTES.profile}
+                    className="block rounded-lg px-3 py-2 text-sm hover:bg-muted"
+                    role="menuitem"
+                    onClick={() => setAccountOpen(false)}
+                  >
+                    الملف الشخصي
+                  </Link>
+                  <Link
+                    href={ROUTES.earlyAccess}
+                    className="block rounded-lg px-3 py-2 text-sm hover:bg-muted"
+                    role="menuitem"
+                    onClick={() => setAccountOpen(false)}
+                  >
+                    الوصول المبكر
+                  </Link>
+                  <button
+                    type="button"
+                    className="w-full rounded-lg px-3 py-2 text-start text-sm text-destructive hover:bg-muted disabled:opacity-50"
+                    role="menuitem"
+                    disabled={loggingOut}
+                    onClick={handleLogout}
+                  >
+                    {loggingOut ? "جارٍ تسجيل الخروج" : "تسجيل الخروج"}
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <LinkButton
+                href={ROUTES.login}
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground"
+                onClick={() => trackLoginClick("header")}
+              >
+                تسجيل الدخول
+              </LinkButton>
+              <LinkButton
+                href={ROUTES.earlyAccess}
+                size="lg"
+                className="bg-gradient-to-l from-gold to-gold-dim px-5 font-semibold text-background shadow-lg shadow-gold/25 hover:opacity-90"
+                onClick={() => trackEarlyAccessClick("header")}
+              >
+                انضم للوصول المبكر
+              </LinkButton>
+            </>
+          )}
         </div>
 
         <button
           type="button"
-          className="flex size-10 items-center justify-center rounded-lg border border-border/60 md:hidden"
+          className="flex size-10 items-center justify-center rounded-lg border border-border/60 lg:hidden"
           onClick={() => setOpen(!open)}
           aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
         >
@@ -101,7 +176,7 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden border-b border-border/50 bg-background/95 backdrop-blur-xl md:hidden"
+            className="overflow-hidden border-b border-border/50 bg-background/95 backdrop-blur-xl lg:hidden"
           >
             <nav className="flex flex-col gap-1 px-4 py-4">
               {navLinks.map((link, i) => (
@@ -121,21 +196,48 @@ export function Header() {
                 </motion.div>
               ))}
               <div className="mt-4 flex flex-col gap-2 border-t border-border/50 pt-4">
-                <LinkButton
-                  href={ROUTES.login}
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => trackLoginClick("mobile_menu")}
-                >
-                  تسجيل الدخول
-                </LinkButton>
-                <LinkButton
-                  href={ROUTES.earlyAccess}
-                  className="w-full bg-gradient-to-l from-gold to-gold-dim text-background"
-                  onClick={() => trackEarlyAccessClick("mobile_menu")}
-                >
-                  انضم للوصول المبكر
-                </LinkButton>
+                {authLoading ? (
+                  <div className="h-11 w-full animate-pulse rounded-lg bg-muted" aria-hidden="true" />
+                ) : user ? (
+                  <>
+                    <LinkButton href={ROUTES.profile} variant="outline" className="w-full" onClick={() => setOpen(false)}>
+                      الملف الشخصي
+                    </LinkButton>
+                    <LinkButton
+                      href={ROUTES.earlyAccess}
+                      className="w-full bg-gradient-to-l from-gold to-gold-dim text-background"
+                      onClick={() => setOpen(false)}
+                    >
+                      الوصول المبكر
+                    </LinkButton>
+                    <button
+                      type="button"
+                      className="inline-flex h-9 items-center justify-center rounded-lg border border-border px-3 text-sm font-medium text-destructive hover:bg-muted disabled:opacity-50"
+                      onClick={handleLogout}
+                      disabled={loggingOut}
+                    >
+                      {loggingOut ? "جارٍ تسجيل الخروج" : "تسجيل الخروج"}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <LinkButton
+                      href={ROUTES.login}
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => trackLoginClick("mobile_menu")}
+                    >
+                      تسجيل الدخول
+                    </LinkButton>
+                    <LinkButton
+                      href={ROUTES.earlyAccess}
+                      className="w-full bg-gradient-to-l from-gold to-gold-dim text-background"
+                      onClick={() => trackEarlyAccessClick("mobile_menu")}
+                    >
+                      انضم للوصول المبكر
+                    </LinkButton>
+                  </>
+                )}
               </div>
             </nav>
           </motion.div>

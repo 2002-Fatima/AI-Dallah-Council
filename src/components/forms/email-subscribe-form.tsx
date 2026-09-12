@@ -22,9 +22,11 @@ export function EmailSubscribeForm({ source, className }: EmailSubscribeFormProp
 
     setStatus("loading");
     try {
-      if (isFirebaseConfigured()) {
-        await subscribeEmail({ email: email.trim(), source });
+      if (!isFirebaseConfigured()) {
+        setStatus("error");
+        return;
       }
+      await subscribeEmail({ email: email.trim(), source });
       setStatus("success");
       setEmail("");
     } catch {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -13,6 +13,7 @@ import { signUp } from "@/lib/firebase/auth";
 import { isFirebaseConfigured } from "@/lib/firebase/config";
 import { ROUTES } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export function SignupForm() {
   const router = useRouter();
@@ -21,6 +22,13 @@ export function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user, loading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(ROUTES.profile);
+    }
+  }, [authLoading, router, user]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -44,7 +52,7 @@ export function SignupForm() {
       }
       await signUp(email, password);
       trackEvent("signup_completed", { method: "email" });
-      router.push(ROUTES.home);
+      router.push(ROUTES.profile);
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
       if (message.includes("email-already-in-use")) {
@@ -59,6 +67,10 @@ export function SignupForm() {
     }
   }
 
+  if (authLoading || user) {
+    return <p className="py-8 text-center text-muted-foreground">جارٍ التحقق من الحساب...</p>;
+  }
+
   return (
     <motion.form
       initial={{ opacity: 0, y: 20 }}
@@ -66,7 +78,7 @@ export function SignupForm() {
       onSubmit={handleSubmit}
       className="space-y-6"
     >
-      <GoogleAuthButton redirectTo={ROUTES.home} />
+      <GoogleAuthButton redirectTo={ROUTES.profile} />
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">

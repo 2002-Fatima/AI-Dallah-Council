@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "إنشاء حساب",
-  description: `أنشئ حساباً في ${siteConfig.name} وانضم لبرنامج الوصول المبكر.`,
+  description: `أنشئ حساباً في ${siteConfig.name} لاستكشاف رؤية المنتج.`,
 };
 
 export default function SignupPage() {
