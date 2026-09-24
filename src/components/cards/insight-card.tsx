@@ -4,6 +4,7 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { InsightArticle } from "@/lib/types";
+import { localePath } from "@/lib/i18n";
 
 type InsightCardProps = {
   article: InsightArticle;
@@ -11,7 +12,7 @@ type InsightCardProps = {
 
 export function InsightCard({ article }: InsightCardProps) {
   return (
-    <Link href={`/insights/${article.slug}`} className="group block h-full">
+    <Link href={localePath(`/insights/${article.slug}`)} className="group block h-full">
       <Card className="h-full overflow-hidden border-border/50 bg-card/50 p-0 backdrop-blur transition-all hover:-translate-y-1 hover:border-gold/30 hover:shadow-xl hover:shadow-gold/5">
         <div className="relative aspect-[16/10] overflow-hidden">
           {article.image ? (

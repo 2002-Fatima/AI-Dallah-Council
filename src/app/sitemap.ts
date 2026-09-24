@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteConfig, insightArticles } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
+import { localePath } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
@@ -14,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ROUTES.earlyAccess,
   ];
 
-  const insightPages = insightArticles.map((a) => `/insights/${a.slug}`);
+  const insightPages = insightArticles.map((a) => localePath(`/insights/${a.slug}`));
 
   return [...staticPages, ...insightPages].map((path) => ({
     url: `${baseUrl}${path === "/" ? "" : path}`,

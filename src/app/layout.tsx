@@ -19,9 +19,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  icons: {
-    icon: "/favicon.png",
-  },
+   
   keywords: [
     "مجلس الدلّة",
     "مطاعم الخليج",

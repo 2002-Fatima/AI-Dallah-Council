@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { StaggerContainer, StaggerItem } from "@/components/shared/fade-in";
 import { insightArticles } from "@/lib/content";
+import { localePath } from "@/lib/i18n";
 
 export function InsightsGrid() {
   return (
@@ -16,7 +17,7 @@ export function InsightsGrid() {
           {insightArticles.map((article) => (
             <StaggerItem key={article.slug}>
               <motion.div whileHover={{ y: -6 }}>
-                <Link href={`/insights/${article.slug}`}>
+                <Link href={localePath(`/insights/${article.slug}`)}>
                   <Card className="group h-full border-border/50 bg-card/50 p-6 backdrop-blur transition-all hover:border-gold/30 hover:shadow-xl hover:shadow-gold/5">
                     <Badge variant="outline" className="border-gold/30 text-gold">
                       {article.category}

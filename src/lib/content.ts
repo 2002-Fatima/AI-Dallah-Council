@@ -1,3 +1,5 @@
+import { ROUTES } from "@/lib/constants";
+
 export const siteConfig = {
   name: "مجلس الدلّة",
   nameEn: "AI Dallah",
@@ -13,10 +15,10 @@ export const siteConfig = {
 };
 
 export const navLinks = [
-  { href: "/about", label: "من نحن" },
-  { href: "/demo", label: "العرض التوضيحي" },
-  { href: "/roadmap", label: "خارطة الطريق" },
-  { href: "/insights", label: "رؤى" },
+  { href: ROUTES.about, label: "من نحن" },
+  { href: ROUTES.demo, label: "العرض التوضيحي" },
+  { href: ROUTES.roadmap, label: "خارطة الطريق" },
+  { href: ROUTES.insights, label: "رؤى" },
 ];
 
 export const features = [
@@ -102,13 +104,13 @@ export const visionStats = [
 
 export const footerLinks = {
   product: [
-    { label: "العرض التوضيحي", href: "/demo" },
-    { label: "خارطة الطريق", href: "/roadmap" },
+    { label: "العرض التوضيحي", href: ROUTES.demo },
+    { label: "خارطة الطريق", href: ROUTES.roadmap },
   ],
   company: [
-    { label: "من نحن", href: "/about" },
-    { label: "الرؤى", href: "/insights" },
-    { label: "الوصول المبكر", href: "/early-access" },
+    { label: "من نحن", href: ROUTES.about },
+    { label: "الرؤى", href: ROUTES.insights },
+    { label: "الوصول المبكر", href: ROUTES.earlyAccess },
   ],
   legal: [] as { label: string; href: string }[],
 };

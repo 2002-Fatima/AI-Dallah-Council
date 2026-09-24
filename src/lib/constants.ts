@@ -1,13 +1,15 @@
+import { localePath } from "@/lib/i18n";
+
 export const ROUTES = {
-  home: "/",
-  login: "/login",
-  signup: "/signup",
-  profile: "/profile",
-  earlyAccess: "/early-access",
-  about: "/about",
-  demo: "/demo",
-  roadmap: "/roadmap",
-  insights: "/insights",
+  home: localePath("/"),
+  login: localePath("/login"),
+  signup: localePath("/signup"),
+  profile: localePath("/profile"),
+  earlyAccess: localePath("/early-access"),
+  about: localePath("/about"),
+  demo: localePath("/demo"),
+  roadmap: localePath("/roadmap"),
+  insights: localePath("/insights"),
 } as const;
 
 export const GCC_COUNTRIES = [

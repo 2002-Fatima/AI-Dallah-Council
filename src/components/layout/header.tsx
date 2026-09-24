@@ -61,7 +61,7 @@ export function Header() {
         transition={{ duration: 0.5 }}
         className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-18 sm:px-6 lg:px-8"
       >
-        <Link href="/" className="group flex items-center gap-2">
+        <Link href={ROUTES.home} className="group flex items-center gap-2">
           <Image
             src="/Dallah-council-logo.webp"
             alt={siteConfig.name}
