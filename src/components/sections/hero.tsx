@@ -16,8 +16,13 @@ import { LinkButton } from "@/components/ui/link-button";
 import { siteConfig } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
 import { trackEarlyAccessClick, trackCtaClick } from "@/lib/analytics";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 export function HeroSection() {
+  const locale = useLocale();
+  const localizedPath = (path: string) => localePath(path, locale);
+
   return (
     <section className="relative min-h-screen overflow-hidden pt-24 pb-20 md:pt-28 md:pb-28">
       <motion.div
@@ -79,7 +84,7 @@ export function HeroSection() {
             className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start"
           >
             <LinkButton
-              href={ROUTES.earlyAccess}
+              href={localizedPath(ROUTES.earlyAccess)}
               size="lg"
               className="h-12 w-full bg-gradient-to-l from-gold to-gold-dim px-8 text-base font-semibold text-background shadow-xl shadow-gold/30 hover:opacity-90 sm:w-auto"
               onClick={() => trackEarlyAccessClick("hero_primary")}
@@ -88,11 +93,11 @@ export function HeroSection() {
               <ArrowLeft className="size-4" />
             </LinkButton>
             <LinkButton
-              href={ROUTES.demo}
+              href={localizedPath(ROUTES.demo)}
               variant="outline"
               size="lg"
               className="h-12 w-full border-border/60 bg-card/50 backdrop-blur sm:w-auto"
-              onClick={() => trackCtaClick("watch_demo", ROUTES.demo)}
+              onClick={() => trackCtaClick("watch_demo", localizedPath(ROUTES.demo))}
             >
               <Play className="size-4 fill-current" />
               شاهد العرض التوضيحي

@@ -7,9 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { StaggerContainer, StaggerItem } from "@/components/shared/fade-in";
 import { insightArticles } from "@/lib/content";
+import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
 
 export function InsightsGrid() {
+  const locale = useLocale();
+
   return (
     <section className="pb-24 md:pb-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -17,7 +20,7 @@ export function InsightsGrid() {
           {insightArticles.map((article) => (
             <StaggerItem key={article.slug}>
               <motion.div whileHover={{ y: -6 }}>
-                <Link href={localePath(`/insights/${article.slug}`)}>
+                <Link href={localePath(`/insights/${article.slug}`, locale)}>
                   <Card className="group h-full border-border/50 bg-card/50 p-6 backdrop-blur transition-all hover:border-gold/30 hover:shadow-xl hover:shadow-gold/5">
                     <Badge variant="outline" className="border-gold/30 text-gold">
                       {article.category}

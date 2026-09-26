@@ -2,16 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { footerLinks, siteConfig } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
+import { localePath, type Locale } from "@/lib/i18n";
 
-export function Footer() {
+export function Footer({ locale }: { locale: Locale }) {
   const year = new Date().getFullYear();
+  const localizedPath = (path: string) => localePath(path, locale);
 
   return (
     <footer className="border-t border-border/50 bg-card/30">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href={ROUTES.home} className="inline-flex items-center gap-2">
+            <Link href={localizedPath(ROUTES.home)} className="inline-flex items-center gap-2">
               <Image src="/Dallah-council-logo.webp" alt="logo" width={100} height={100} className="w-auto h-auto" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -25,7 +27,7 @@ export function Footer() {
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
                   <Link
-                    href={link.href}
+                    href={localizedPath(link.href)}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.label}
@@ -41,7 +43,7 @@ export function Footer() {
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
                   <Link
-                    href={link.href}
+                    href={localizedPath(link.href)}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.label}
@@ -58,7 +60,7 @@ export function Footer() {
                 {footerLinks.legal.map((link) => (
                   <li key={link.label}>
                     <Link
-                      href={link.href}
+                      href={localizedPath(link.href)}
                       className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {link.label}

@@ -7,6 +7,8 @@ import { FadeIn } from "@/components/shared/fade-in";
 import { ArrowLeft, Construction } from "lucide-react";
 import { LinkButton } from "@/components/ui/link-button";
 import { ROUTES } from "@/lib/constants";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 interface ComingSoonPageProps {
   title: string;
@@ -25,6 +27,8 @@ export function ComingSoonPage({
   source,
   showEarlyAccess = true,
 }: ComingSoonPageProps) {
+  const locale = useLocale();
+
   return (
     <div className="relative min-h-[80vh] overflow-hidden py-24 md:py-32">
       <motion.div
@@ -70,7 +74,7 @@ export function ComingSoonPage({
           {showEarlyAccess && (
             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <LinkButton
-                href={ROUTES.earlyAccess}
+                href={localePath(ROUTES.earlyAccess, locale)}
                 className="bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
               >
                 انضم للوصول المبكر

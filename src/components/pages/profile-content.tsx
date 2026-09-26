@@ -9,9 +9,13 @@ import { ROUTES } from "@/lib/constants";
 import { getUserProfile } from "@/lib/firebase/firestore";
 import { useAuth } from "@/components/providers/auth-provider";
 import type { UserProfile } from "@/types";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 export function ProfileContent() {
   const router = useRouter();
+  const locale = useLocale();
+  const localizedPath = (path: string) => localePath(path, locale);
   const { user, loading, logout } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [profileError, setProfileError] = useState(false);
@@ -20,8 +24,8 @@ export function ProfileContent() {
   useEffect(() => {
     if (loading || user) return;
 
-    router.replace(ROUTES.login);
-  }, [loading, router, user]);
+    router.replace(localePath(ROUTES.login, locale));
+  }, [loading, locale, router, user]);
 
   useEffect(() => {
     if (!user) return;
@@ -51,7 +55,7 @@ export function ProfileContent() {
     setLoggingOut(true);
     try {
       await logout();
-      router.replace(ROUTES.login);
+      router.replace(localizedPath(ROUTES.login));
     } finally {
       setLoggingOut(false);
     }
@@ -105,7 +109,7 @@ export function ProfileContent() {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <LinkButton
-              href={ROUTES.earlyAccess}
+              href={localizedPath(ROUTES.earlyAccess)}
               className="bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
             >
               الوصول المبكر

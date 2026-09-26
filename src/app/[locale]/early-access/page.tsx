@@ -3,19 +3,27 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { PageHero } from "@/components/sections/page-hero";
 import { EarlyAccessForm } from "@/components/forms/early-access-form";
 import { siteConfig } from "@/lib/content";
+import type { Locale } from "@/lib/i18n";
+import { withLocaleMetadata } from "@/lib/locale-metadata";
 
-export const metadata: Metadata = {
-  title: "الوصول المبكر",
-  description: `شارك في تحقق ${siteConfig.name} من احتياجات مطاعم الخليج واتجاه المنتج.`,
-  openGraph: {
-    title: `الوصول المبكر | ${siteConfig.name}`,
-    description: siteConfig.description,
-  },
-};
+type Props = { params: Promise<{ locale: Locale }> };
 
-export default function EarlyAccessPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return withLocaleMetadata(locale, "/early-access", {
+    title: "الوصول المبكر",
+    description: `شارك في تحقق ${siteConfig.name} من احتياجات مطاعم الخليج واتجاه المنتج.`,
+    openGraph: {
+      title: `الوصول المبكر | ${siteConfig.name}`,
+      description: siteConfig.description,
+    },
+  });
+}
+
+export default async function EarlyAccessPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   return (
-    <PageLayout>
+    <PageLayout locale={locale}>
       <PageHero
         badge="برنامج الوصول المبكر"
         title="انضم للوصول المبكر"

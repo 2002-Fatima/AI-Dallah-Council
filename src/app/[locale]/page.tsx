@@ -5,8 +5,14 @@ import { FeaturesSection } from "@/components/sections/features";
 import { ShowcaseSection } from "@/components/sections/showcase";
 import { VisionSection } from "@/components/sections/vision";
 import { CtaSection } from "@/components/sections/cta";
+import type { Locale } from "@/lib/i18n";
 
-export default function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
   return (
     <>
       <Header />
@@ -17,7 +23,7 @@ export default function HomePage() {
         <VisionSection />
         <CtaSection />
       </main>
-      <Footer />
+      <Footer locale={locale} />
     </>
   );
 }

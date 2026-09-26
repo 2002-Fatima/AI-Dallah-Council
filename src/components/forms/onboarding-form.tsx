@@ -13,6 +13,8 @@ import { getFirebaseAuth, isFirebaseConfigured } from "@/lib/firebase/config";
 import { ROUTES } from "@/lib/constants";
 import type { UserRole } from "@/types";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 const roles = [
   {
@@ -31,6 +33,8 @@ const roles = [
 
 export function OnboardingForm() {
   const router = useRouter();
+  const locale = useLocale();
+  const localizedPath = (path: string) => localePath(path, locale);
   const [role, setRole] = useState<UserRole>("restaurant_owner");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -39,19 +43,19 @@ export function OnboardingForm() {
 
   useEffect(() => {
     if (!isFirebaseConfigured()) {
-      router.push(ROUTES.signup);
+      router.push(localePath(ROUTES.signup, locale));
       return;
     }
     const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
       if (!user) {
-        router.push(ROUTES.signup);
+        router.push(localePath(ROUTES.signup, locale));
         return;
       }
       setUserEmail(user.email);
       setUserId(user.uid);
     });
     return () => unsubscribe();
-  }, [router]);
+  }, [locale, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -61,7 +65,7 @@ export function OnboardingForm() {
     setError("");
     try {
       await saveUserRole(userId, userEmail, role);
-      router.push(ROUTES.earlyAccess);
+      router.push(localizedPath(ROUTES.earlyAccess));
     } catch {
       setError("حدث خطأ في حفظ البيانات. حاول مرة أخرى.");
     } finally {

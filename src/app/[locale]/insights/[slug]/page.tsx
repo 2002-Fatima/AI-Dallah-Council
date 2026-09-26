@@ -7,10 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { insightArticles, siteConfig } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
-import { LOCALES } from "@/lib/i18n";
+import { LOCALES, localePath, type Locale } from "@/lib/i18n";
+import { withLocaleMetadata } from "@/lib/locale-metadata";
 
 interface Props {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -20,30 +21,30 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const article = insightArticles.find((a) => a.slug === slug);
   if (!article) return { title: "غير موجود" };
 
-  return {
+  return withLocaleMetadata(locale, `/insights/${slug}`, {
     title: article.title,
     description: article.excerpt,
     openGraph: {
       title: `${article.title} | ${siteConfig.name}`,
       description: article.excerpt,
     },
-  };
+  });
 }
 
 export default async function InsightArticlePage({ params }: Props) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const article = insightArticles.find((a) => a.slug === slug);
   if (!article) notFound();
 
   return (
-    <PageLayout>
+    <PageLayout locale={locale}>
       <article className="mx-auto max-w-3xl px-4 pt-28 pb-24 sm:px-6 md:pt-32">
         <Link
-          href={ROUTES.insights}
+          href={localePath(ROUTES.insights, locale)}
           className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-gold"
         >
           <ArrowRight className="size-4" />
@@ -80,7 +81,7 @@ export default async function InsightArticlePage({ params }: Props) {
             شارك في التحقق من احتياجات مطاعم الخليج واتجاه المنتج
           </p>
           <LinkButton
-            href={ROUTES.earlyAccess}
+            href={localePath(ROUTES.earlyAccess, locale)}
             className="mt-6 bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
           >
             انضم للوصول المبكر

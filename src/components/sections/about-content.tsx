@@ -15,6 +15,8 @@ import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/shared/fade-in";
 import { ROUTES } from "@/lib/constants";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 const problems = [
   { icon: ShoppingCart, label: "الطلبات", desc: "أنظمة منفصلة لكل قناة" },
@@ -26,6 +28,9 @@ const problems = [
 ];
 
 export function AboutContent() {
+  const locale = useLocale();
+  const localizedPath = (path: string) => localePath(path, locale);
+
   return (
     <>
       <section className="pb-16">
@@ -105,12 +110,12 @@ export function AboutContent() {
 
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                   <LinkButton
-                    href={ROUTES.earlyAccess}
+                    href={localizedPath(ROUTES.earlyAccess)}
                     className="bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
                   >
                     انضم للوصول المبكر
                   </LinkButton>
-                  <LinkButton href={ROUTES.roadmap} variant="outline">
+                  <LinkButton href={localizedPath(ROUTES.roadmap)} variant="outline">
                     اطّلع على خارطة الطريق
                   </LinkButton>
                 </div>

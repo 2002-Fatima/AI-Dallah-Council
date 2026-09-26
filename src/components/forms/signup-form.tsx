@@ -14,9 +14,13 @@ import { isFirebaseConfigured } from "@/lib/firebase/config";
 import { ROUTES } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 export function SignupForm() {
   const router = useRouter();
+  const locale = useLocale();
+  const localizedPath = (path: string) => localePath(path, locale);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,9 +30,9 @@ export function SignupForm() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace(ROUTES.profile);
+      router.replace(localePath(ROUTES.profile, locale));
     }
-  }, [authLoading, router, user]);
+  }, [authLoading, locale, router, user]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -52,7 +56,7 @@ export function SignupForm() {
       }
       await signUp(email, password);
       trackEvent("signup_completed", { method: "email" });
-      router.push(ROUTES.profile);
+      router.push(localizedPath(ROUTES.profile));
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
       if (message.includes("email-already-in-use")) {
@@ -78,7 +82,7 @@ export function SignupForm() {
       onSubmit={handleSubmit}
       className="space-y-6"
     >
-      <GoogleAuthButton redirectTo={ROUTES.profile} />
+      <GoogleAuthButton redirectTo={localizedPath(ROUTES.profile)} />
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
@@ -153,7 +157,7 @@ export function SignupForm() {
 
       <p className="text-center text-sm text-muted-foreground">
         لديك حساب؟{" "}
-        <Link href={ROUTES.login} className="text-gold hover:underline">
+        <Link href={localizedPath(ROUTES.login)} className="text-gold hover:underline">
           تسجيل الدخول
         </Link>
       </p>

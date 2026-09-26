@@ -10,6 +10,8 @@ import { ROUTES } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics";
 import { trackLoginClick } from "@/lib/analytics";
 import { GoogleIcon } from "@/components/shared/google-icon";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 type Props = {
   redirectTo?: string;
@@ -17,10 +19,12 @@ type Props = {
 };
 
 export function GoogleAuthButton({
-  redirectTo = ROUTES.home,
+  redirectTo,
   mode = "signup",
 }: Props) {
   const router = useRouter();
+  const locale = useLocale();
+  const destination = redirectTo ?? localePath(ROUTES.home, locale);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -39,7 +43,7 @@ export function GoogleAuthButton({
       if (mode === "signup") {
         trackEvent("signup_completed", { method: "google" });
       }
-      router.push(redirectTo);
+      router.push(destination);
     } catch {
       setError("حدث خطأ في المصادقة باستخدام Google. حاول مرة أخرى.");
     } finally {

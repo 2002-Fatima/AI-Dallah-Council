@@ -6,8 +6,13 @@ import { LinkButton } from "@/components/ui/link-button";
 import { FadeIn } from "@/components/shared/fade-in";
 import { ROUTES } from "@/lib/constants";
 import { trackEarlyAccessClick, trackCtaClick } from "@/lib/analytics";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 export function CtaSection() {
+  const locale = useLocale();
+  const localizedPath = (path: string) => localePath(path, locale);
+
   return (
     <section id="cta" className="relative py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -43,7 +48,7 @@ export function CtaSection() {
 
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <LinkButton
-                  href={ROUTES.earlyAccess}
+                  href={localizedPath(ROUTES.earlyAccess)}
                   size="lg"
                   className="h-12 w-full bg-gradient-to-l from-gold to-gold-dim px-8 text-base font-semibold text-background shadow-xl shadow-gold/30 sm:w-auto"
                   onClick={() => trackEarlyAccessClick("cta_section")}
@@ -52,11 +57,11 @@ export function CtaSection() {
                   <ArrowLeft className="size-4" />
                 </LinkButton>
                 <LinkButton
-                  href={ROUTES.demo}
+                  href={localizedPath(ROUTES.demo)}
                   variant="outline"
                   size="lg"
                   className="h-12 w-full border-border/60 sm:w-auto"
-                  onClick={() => trackCtaClick("watch_demo", ROUTES.demo)}
+                  onClick={() => trackCtaClick("watch_demo", localizedPath(ROUTES.demo))}
                 >
                   <Play className="size-4 fill-current" />
                   شاهد العرض التوضيحي

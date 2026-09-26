@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { LinkButton } from "@/components/ui/link-button";
+import { ROUTES } from "@/lib/constants";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 interface SuccessStateProps {
   title: string;
@@ -15,8 +18,11 @@ export function SuccessState({
   title,
   description,
   actionLabel = "العودة للرئيسية",
-  actionHref = "/",
+  actionHref,
 }: SuccessStateProps) {
+  const locale = useLocale();
+  const destination = actionHref ?? localePath(ROUTES.home, locale);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -37,7 +43,7 @@ export function SuccessState({
         {description}
       </p>
       <LinkButton
-        href={actionHref}
+        href={destination}
         className="mt-8 bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
       >
         {actionLabel}

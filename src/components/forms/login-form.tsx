@@ -14,9 +14,13 @@ import { isFirebaseConfigured } from "@/lib/firebase/config";
 import { ROUTES } from "@/lib/constants";
 import { trackLoginClick } from "@/lib/analytics";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useLocale } from "@/components/providers/locale-provider";
+import { localePath } from "@/lib/i18n";
 
 export function LoginForm() {
   const router = useRouter();
+  const locale = useLocale();
+  const localizedPath = (path: string) => localePath(path, locale);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,9 +29,9 @@ export function LoginForm() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace(ROUTES.home);
+      router.replace(localePath(ROUTES.home, locale));
     }
-  }, [authLoading, router, user]);
+  }, [authLoading, locale, router, user]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -41,7 +45,7 @@ export function LoginForm() {
         return;
       }
       await signIn(email, password);
-      router.push(ROUTES.home);
+      router.push(localizedPath(ROUTES.home));
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "فشل تسجيل الدخول";
@@ -68,7 +72,7 @@ export function LoginForm() {
       onSubmit={handleSubmit}
       className="space-y-6"
     >
-      <GoogleAuthButton redirectTo={ROUTES.home} mode="login" />
+      <GoogleAuthButton redirectTo={localizedPath(ROUTES.home)} mode="login" />
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
@@ -130,7 +134,7 @@ export function LoginForm() {
 
       <p className="text-center text-sm text-muted-foreground">
         ليس لديك حساب؟{" "}
-        <Link href={ROUTES.signup} className="text-gold hover:underline">
+        <Link href={localizedPath(ROUTES.signup)} className="text-gold hover:underline">
           إنشاء حساب
         </Link>
       </p>

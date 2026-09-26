@@ -3,15 +3,23 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { PageHero } from "@/components/sections/page-hero";
 import { LoginForm } from "@/components/forms/login-form";
 import { siteConfig } from "@/lib/content";
+import type { Locale } from "@/lib/i18n";
+import { withLocaleMetadata } from "@/lib/locale-metadata";
 
-export const metadata: Metadata = {
-  title: "تسجيل الدخول",
-  description: `سجّل دخولك إلى ${siteConfig.name} — نظام التشغيل الذكي لمطاعم الخليج.`,
-};
+type Props = { params: Promise<{ locale: Locale }> };
 
-export default function LoginPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return withLocaleMetadata(locale, "/login", {
+    title: "تسجيل الدخول",
+    description: `سجّل دخولك إلى ${siteConfig.name} — نظام التشغيل الذكي لمطاعم الخليج.`,
+  });
+}
+
+export default async function LoginPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   return (
-    <PageLayout>
+    <PageLayout locale={locale}>
       <PageHero
         badge="حسابك"
         title="تسجيل الدخول"
