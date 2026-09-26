@@ -5,26 +5,23 @@ import { CheckCircle2, Clock, Circle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/shared/fade-in";
-import { roadmapItems } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 const statusConfig = {
   completed: {
-    label: "مكتمل",
     icon: CheckCircle2,
     color: "text-emerald",
     bg: "bg-emerald/15",
     border: "border-emerald/30",
   },
   in_progress: {
-    label: "قيد التنفيذ",
     icon: Clock,
     color: "text-gold",
     bg: "bg-gold/15",
     border: "border-gold/30",
   },
   planned: {
-    label: "مخطط",
     icon: Circle,
     color: "text-muted-foreground",
     bg: "bg-muted",
@@ -32,13 +29,14 @@ const statusConfig = {
   },
 } as const;
 
-const sections = [
-  { key: "completed" as const, title: "مكتمل", items: roadmapItems.completed },
-  { key: "in_progress" as const, title: "قيد التنفيذ", items: roadmapItems.inProgress },
-  { key: "planned" as const, title: "مخطط", items: roadmapItems.planned },
-];
-
 export function RoadmapSection() {
+  const messages = useDictionary();
+  const sections = [
+    { key: "completed" as const, title: messages.roadmap.stages.completed, items: messages.roadmap.items.completed },
+    { key: "in_progress" as const, title: messages.roadmap.stages.inProgress, items: messages.roadmap.items.inProgress },
+    { key: "planned" as const, title: messages.roadmap.stages.planned, items: messages.roadmap.items.planned },
+  ];
+
   return (
     <section className="pb-24 md:pb-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -61,7 +59,7 @@ export function RoadmapSection() {
                   </span>
                   <h2 className="text-2xl font-bold">{section.title}</h2>
                   <Badge variant="outline" className={cn(config.border, config.color)}>
-                    {section.items.length} عنصر
+                    {section.items.length} {messages.roadmap.stages.itemCount}
                   </Badge>
                 </div>
 

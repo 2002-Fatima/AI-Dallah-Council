@@ -8,16 +8,22 @@ import { Card } from "@/components/ui/card";
 import { StaggerContainer, StaggerItem } from "@/components/shared/fade-in";
 import { insightArticles } from "@/lib/content";
 import { useLocale } from "@/components/providers/locale-provider";
+import { useDictionary } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
 
 export function InsightsGrid() {
   const locale = useLocale();
+  const messages = useDictionary();
+  const articles = insightArticles.map((reference) => ({
+    slug: reference.slug,
+    ...messages.insights.articles[reference.contentKey],
+  }));
 
   return (
     <section className="pb-24 md:pb-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <StaggerContainer className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {insightArticles.map((article) => (
+          {articles.map((article) => (
             <StaggerItem key={article.slug}>
               <motion.div whileHover={{ y: -6 }}>
                 <Link href={localePath(`/insights/${article.slug}`, locale)}>
@@ -39,7 +45,7 @@ export function InsightsGrid() {
                       </span>
                     </div>
                     <span className="mt-4 inline-flex items-center gap-1 text-sm text-gold opacity-0 transition-opacity group-hover:opacity-100">
-                      اقرأ المزيد
+                      {messages.common.readMore}
                       <ArrowLeft className="size-3" />
                     </span>
                   </Card>

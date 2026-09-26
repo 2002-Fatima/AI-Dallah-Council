@@ -11,10 +11,12 @@ import { useAuth } from "@/components/providers/auth-provider";
 import type { UserProfile } from "@/types";
 import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 export function ProfileContent() {
   const router = useRouter();
   const locale = useLocale();
+  const messages = useDictionary();
   const localizedPath = (path: string) => localePath(path, locale);
   const { user, loading, logout } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -45,11 +47,11 @@ export function ProfileContent() {
   }, [user]);
 
   if (loading || !user) {
-    return <ProfileLoadingState />;
+    return <ProfileLoadingState label={messages.profile.checking} />;
   }
 
-  const displayName = user.displayName || "حساب مجلس الدلّة";
-  const initials = (user.displayName || user.email || "م").trim().charAt(0).toUpperCase();
+  const displayName = user.displayName || messages.profile.accountFallback;
+  const initials = (user.displayName || user.email || messages.profile.initial).trim().charAt(0).toUpperCase();
 
   async function handleLogout() {
     setLoggingOut(true);
@@ -64,10 +66,10 @@ export function ProfileContent() {
   return (
     <>
       <PageHero
-        badge="حسابك"
-        title="الملف الشخصي"
-        subtitle="إدارة معلومات حسابك"
-        description="راجع معلومات حسابك واستكشف خطوة الوصول المبكر بشكل مستقل."
+        badge={messages.profile.hero.badge}
+        title={messages.profile.hero.title}
+        subtitle={messages.profile.hero.subtitle}
+        description={messages.profile.hero.description}
       />
       <section className="mx-auto max-w-2xl px-4 pb-24 sm:px-6">
         <div className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur md:p-10">
@@ -87,7 +89,7 @@ export function ProfileContent() {
               <h2 className="truncate text-xl font-bold">{displayName}</h2>
               <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="size-4 shrink-0" />
-                <span className="truncate">{user.email || "لا يوجد بريد إلكتروني"}</span>
+                <span className="truncate">{user.email || messages.profile.noEmail}</span>
               </p>
             </div>
           </div>
@@ -95,14 +97,14 @@ export function ProfileContent() {
           <div className="mt-8 space-y-4 border-t border-border/50 pt-6">
             <div className="flex items-center gap-3 text-sm">
               <UserRound className="size-4 text-gold" />
-              <span className="text-muted-foreground">نوع الحساب</span>
+              <span className="text-muted-foreground">{messages.profile.accountType}</span>
               <span className="mr-auto font-medium">
-                {profile?.role === "restaurant_owner" ? "صاحب مطعم" : profile?.role === "customer" ? "عميل" : "لم يُحدد بعد"}
+                {profile?.role === "restaurant_owner" ? messages.profile.roleOwner : profile?.role === "customer" ? messages.profile.roleCustomer : messages.profile.roleUnset}
               </span>
             </div>
             {profileError && (
               <p className="text-sm text-muted-foreground">
-                تعذر تحميل تفاصيل الملف الإضافية حالياً.
+                {messages.profile.loadError}
               </p>
             )}
           </div>
@@ -112,7 +114,7 @@ export function ProfileContent() {
               href={localizedPath(ROUTES.earlyAccess)}
               className="bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
             >
-              الوصول المبكر
+              {messages.profile.earlyAccess}
             </LinkButton>
             <button
               type="button"
@@ -121,7 +123,7 @@ export function ProfileContent() {
               className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-border px-3 text-sm font-medium transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
             >
               <LogOut className="size-4" />
-              {loggingOut ? "جارٍ تسجيل الخروج" : "تسجيل الخروج"}
+              {loggingOut ? messages.profile.loggingOut : messages.profile.logout}
             </button>
           </div>
         </div>
@@ -130,10 +132,10 @@ export function ProfileContent() {
   );
 }
 
-function ProfileLoadingState() {
+function ProfileLoadingState({ label }: { label: string }) {
   return (
     <section className="mx-auto flex min-h-[60vh] max-w-2xl items-center justify-center px-4 py-24 sm:px-6">
-      <p className="text-muted-foreground">جارٍ التحقق من الحساب...</p>
+      <p className="text-muted-foreground">{label}</p>
     </section>
   );
 }

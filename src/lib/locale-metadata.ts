@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/content";
 import { localeConfig, localePath, type Locale } from "@/lib/i18n";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export function withLocaleMetadata(
   locale: Locale,
@@ -11,7 +12,7 @@ export function withLocaleMetadata(
   const description =
     typeof pageMetadata.description === "string"
       ? pageMetadata.description
-      : siteConfig.description;
+      : getDictionary(locale).seo.description;
   const title =
     typeof pageMetadata.title === "string"
       ? `${pageMetadata.title} | ${siteConfig.name}`

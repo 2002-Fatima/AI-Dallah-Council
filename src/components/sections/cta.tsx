@@ -7,10 +7,12 @@ import { FadeIn } from "@/components/shared/fade-in";
 import { ROUTES } from "@/lib/constants";
 import { trackEarlyAccessClick, trackCtaClick } from "@/lib/analytics";
 import { useLocale } from "@/components/providers/locale-provider";
+import { useDictionary } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
 
 export function CtaSection() {
   const locale = useLocale();
+  const messages = useDictionary();
   const localizedPath = (path: string) => localePath(path, locale);
 
   return (
@@ -30,20 +32,18 @@ export function CtaSection() {
 
             <div className="relative mx-auto max-w-2xl text-center">
               <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-sm text-gold">
-                برنامج الوصول المبكر — مفتوح الآن
+                {messages.home.cta.badge}
               </span>
 
               <h2 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
-                ساعدنا نحدد ما يستحق البناء
+                {messages.home.cta.title}
                 <span className="mt-2 block bg-gradient-to-l from-gold to-gold-light bg-clip-text text-transparent">
-                  لمطاعم الخليج
+                  {messages.home.cta.titleHighlight}
                 </span>
               </h2>
 
               <p className="mt-4 text-lg text-muted-foreground">
-                شاركنا سياق مطعمك وتحدياته لمساعدتنا على التحقق من المشكلة
-                وتحديد أولويات المنتج. الوصول المبكر هنا وسيلة للتعلم، وليس
-                وعداً بإطلاق أو شراكة.
+                {messages.home.cta.description}
               </p>
 
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -53,7 +53,7 @@ export function CtaSection() {
                   className="h-12 w-full bg-gradient-to-l from-gold to-gold-dim px-8 text-base font-semibold text-background shadow-xl shadow-gold/30 sm:w-auto"
                   onClick={() => trackEarlyAccessClick("cta_section")}
                 >
-                  انضم للوصول المبكر
+                  {messages.home.cta.earlyAccess}
                   <ArrowLeft className="size-4" />
                 </LinkButton>
                 <LinkButton
@@ -64,12 +64,12 @@ export function CtaSection() {
                   onClick={() => trackCtaClick("watch_demo", localizedPath(ROUTES.demo))}
                 >
                   <Play className="size-4 fill-current" />
-                  شاهد العرض التوضيحي
+                  {messages.home.cta.demo}
                 </LinkButton>
               </div>
 
               <p className="mt-6 text-xs text-muted-foreground">
-                بدون التزام · للمساعدة في التحقق · لا يوجد وعد بإتاحة فورية
+                {messages.home.cta.disclaimer}
               </p>
             </div>
           </motion.div>

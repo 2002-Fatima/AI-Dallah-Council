@@ -9,6 +9,7 @@ import { LinkButton } from "@/components/ui/link-button";
 import { ROUTES } from "@/lib/constants";
 import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 interface ComingSoonPageProps {
   title: string;
@@ -28,6 +29,7 @@ export function ComingSoonPage({
   showEarlyAccess = true,
 }: ComingSoonPageProps) {
   const locale = useLocale();
+  const messages = useDictionary();
 
   return (
     <div className="relative min-h-[80vh] overflow-hidden py-24 md:py-32">
@@ -63,10 +65,10 @@ export function ComingSoonPage({
 
           <div className="mt-12 rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur">
             <h3 className="mb-2 text-center font-semibold">
-              اشترك للحصول على التحديثات
+              {messages.demo.subscribeTitle}
             </h3>
             <p className="mb-6 text-center text-sm text-muted-foreground">
-              كن أول من يعرف عند إطلاق هذه الميزة
+              {messages.demo.subscribeDescription}
             </p>
             <EmailSubscribeForm source={source} />
           </div>
@@ -77,7 +79,7 @@ export function ComingSoonPage({
                 href={localePath(ROUTES.earlyAccess, locale)}
                 className="bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
               >
-                انضم للوصول المبكر
+                {messages.demo.earlyAccess}
                 <ArrowLeft className="size-4" />
               </LinkButton>
             </div>

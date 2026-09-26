@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { InsightArticle } from "@/lib/types";
 import { localePath, type Locale } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 type InsightCardProps = {
   article: InsightArticle;
@@ -12,6 +13,8 @@ type InsightCardProps = {
 };
 
 export function InsightCard({ article, locale }: InsightCardProps) {
+  const messages = useDictionary();
+
   return (
     <Link href={localePath(`/insights/${article.slug}`, locale)} className="group block h-full">
       <Card className="h-full overflow-hidden border-border/50 bg-card/50 p-0 backdrop-blur transition-all hover:-translate-y-1 hover:border-gold/30 hover:shadow-xl hover:shadow-gold/5">
@@ -44,7 +47,7 @@ export function InsightCard({ article, locale }: InsightCardProps) {
             {article.excerpt}
           </p>
           <span className="inline-flex items-center gap-1 text-sm font-medium text-gold">
-            اقرأ المزيد
+            {messages.common.readMore}
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-1" />
           </span>
         </CardContent>

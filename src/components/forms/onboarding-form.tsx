@@ -15,25 +15,25 @@ import type { UserRole } from "@/types";
 import { cn } from "@/lib/utils";
 import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 const roles = [
   {
     value: "restaurant_owner" as UserRole,
-    label: "صاحب مطعم",
-    description: "أُدير مطعماً أو سلسلة مطاعم في الخليج",
+    key: "owner",
     icon: ChefHat,
   },
   {
     value: "customer" as UserRole,
-    label: "عميل",
-    description: "أنا مهتم بالمنصة كمستخدم أو مستكشف للمنتج",
+    key: "customer",
     icon: User,
   },
-];
+] as const;
 
 export function OnboardingForm() {
   const router = useRouter();
   const locale = useLocale();
+  const messages = useDictionary();
   const localizedPath = (path: string) => localePath(path, locale);
   const [role, setRole] = useState<UserRole>("restaurant_owner");
   const [loading, setLoading] = useState(false);
@@ -67,7 +67,7 @@ export function OnboardingForm() {
       await saveUserRole(userId, userEmail, role);
       router.push(localizedPath(ROUTES.earlyAccess));
     } catch {
-      setError("حدث خطأ في حفظ البيانات. حاول مرة أخرى.");
+      setError(messages.onboarding.error);
     } finally {
       setLoading(false);
     }
@@ -81,9 +81,9 @@ export function OnboardingForm() {
       className="space-y-8"
     >
       <div>
-        <h2 className="text-xl font-bold">أنا أنضم كـ</h2>
+        <h2 className="text-xl font-bold">{messages.onboarding.title}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          ساعدنا نفهم احتياجاتك لنخصّص تجربتك
+          {messages.onboarding.description}
         </p>
       </div>
 
@@ -92,7 +92,9 @@ export function OnboardingForm() {
         onValueChange={(v) => setRole(v as UserRole)}
         className="gap-4"
       >
-        {roles.map((r) => (
+        {roles.map((r) => {
+          const roleMessages = messages.onboarding.roles[r.key];
+          return (
           <Label
             key={r.value}
             htmlFor={r.value}
@@ -114,12 +116,13 @@ export function OnboardingForm() {
                 <r.icon className="size-5" />
               </span>
               <div>
-                <p className="font-semibold">{r.label}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{r.description}</p>
+                <p className="font-semibold">{roleMessages.label}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{roleMessages.description}</p>
               </div>
             </div>
           </Label>
-        ))}
+          );
+        })}
       </RadioGroup>
 
       {error && (
@@ -136,7 +139,7 @@ export function OnboardingForm() {
         {loading ? (
           <Loader2 className="size-4 animate-spin" />
         ) : (
-          "متابعة"
+          messages.onboarding.submit
         )}
       </Button>
     </motion.form>

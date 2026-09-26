@@ -11,8 +11,11 @@ import {
   StaggerItem,
 } from "@/components/shared/fade-in";
 import { productConcepts } from "@/lib/content";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 export function ShowcaseSection() {
+  const messages = useDictionary();
+
   return (
     <section id="showcase" className="relative py-20 md:py-28">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold/[0.02] to-transparent" />
@@ -24,14 +27,16 @@ export function ShowcaseSection() {
         viewport={{ once: true }}
       >
         <SectionHeader
-          badge="مسارات المنتج"
-          title="تصورات لما قد نبنيه"
-          description="نستكشف هذه المسارات لفهم أي workflows تشغيلية تستحق أن تصبح جزءاً من نظام عربي أولاً لمطاعم الخليج."
+          badge={messages.home.showcase.badge}
+          title={messages.home.showcase.title}
+          description={messages.home.showcase.description}
         />
 
         <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {productConcepts.map((concept) => (
-            <StaggerItem key={concept.name}>
+          {productConcepts.map((concept) => {
+            const content = messages.home.showcase.items[concept.key];
+            return (
+            <StaggerItem key={concept.key}>
               <motion.div
                 whileHover={{ y: -8 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -40,38 +45,39 @@ export function ShowcaseSection() {
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       src={concept.image}
-                      alt={concept.name}
+                      alt={content.name}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
                     <Badge className="absolute top-3 right-3 border-gold/30 bg-background/80 text-gold backdrop-blur">
-                      {concept.tag}
+                      {content.tag}
                     </Badge>
                   </div>
                   <div className="space-y-2 p-4">
                     <div className="flex items-start justify-between gap-2">
                       <h3 className="font-bold text-foreground">
-                        {concept.name}
+                        {content.name}
                       </h3>
                       <span className="flex shrink-0 items-center gap-0.5 text-sm text-gold">
                         <Sparkles className="size-3.5" />
-                        مفهوم
+                        {messages.home.showcase.conceptLabel}
                       </span>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      {concept.focus}
+                      {content.focus}
                     </p>
                     <p className="flex items-center gap-1 text-xs text-muted-foreground">
                       <MapPin className="size-3 text-emerald" />
-                      {concept.location}
+                      {content.location}
                     </p>
                   </div>
                 </Card>
               </motion.div>
             </StaggerItem>
-          ))}
+            );
+          })}
         </StaggerContainer>
       </motion.div>
     </section>

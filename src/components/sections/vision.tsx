@@ -5,9 +5,11 @@ import { motion } from "framer-motion";
 import { Sparkles, Target } from "lucide-react";
 import { SectionHeader } from "@/components/shared/section-header";
 import { FadeIn } from "@/components/shared/fade-in";
-import { visionStats } from "@/lib/content";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 export function VisionSection() {
+  const messages = useDictionary();
+
   return (
     <section id="vision" className="relative py-20 md:py-28">
       <motion.div
@@ -22,9 +24,9 @@ export function VisionSection() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <FadeIn direction="right">
             <SectionHeader
-              badge="رؤيتنا"
-              title="نظام تشغيل واحد لكل مطعم خليجي"
-              description="نستكشف كيف يمكن لمنصة عربية أولاً أن تفهم سوق المطاعم الخليجية — من العمليات إلى متطلبات مثل ZATCA وMADA وموسمية المنطقة."
+              badge={messages.home.vision.badge}
+              title={messages.home.vision.title}
+              description={messages.home.vision.description}
               align="start"
               className="mb-0"
             />
@@ -38,11 +40,7 @@ export function VisionSection() {
                 visible: { transition: { staggerChildren: 0.1 } },
               }}
             >
-              {[
-                "منصة عربية 100% بواجهة RTL احترافية",
-                "تصور مستقبلي لمتطلبات ZATCA ومدفوعات MADA، دون تكامل متاح حالياً",
-                "استكشاف أتمتة العمليات والذكاء الاصطناعي في مراحل لاحقة",
-              ].map((point) => (
+              {messages.home.vision.points.map((point) => (
                 <motion.li
                   key={point}
                   variants={{
@@ -68,7 +66,7 @@ export function VisionSection() {
                 visible: { transition: { staggerChildren: 0.08 } },
               }}
             >
-              {visionStats.map((stat) => (
+              {messages.home.vision.stats.map((stat) => (
                 <motion.div
                   key={stat.label}
                   variants={{
@@ -100,7 +98,7 @@ export function VisionSection() {
                 <div className="relative aspect-[4/5] sm:aspect-square lg:aspect-[4/5]">
                   <Image
                     src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=85"
-                    alt="مطعم عصري في الخليج"
+                    alt={messages.home.vision.imageAlt}
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -118,10 +116,10 @@ export function VisionSection() {
                     </span>
                     <div>
                       <p className="text-sm font-semibold text-gold">
-                        رؤية 2030
+                        {messages.home.vision.vision2030}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        نُسهم في تحقيق الاقتصاد الرقمي عبر تمكين قطاع الضيافة
+                        {messages.home.vision.vision2030Description}
                       </p>
                     </div>
                   </div>

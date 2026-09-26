@@ -1,4 +1,7 @@
 import { siteConfig } from "./content";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+
+const description = getDictionary("ar").seo.description;
 
 export function getOrganizationJsonLd() {
   return {
@@ -8,7 +11,7 @@ export function getOrganizationJsonLd() {
     alternateName: siteConfig.nameEn,
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.webp`,
-    description: siteConfig.description,
+    description,
     email: siteConfig.email,
     areaServed: ["SA", "AE", "QA", "KW", "BH", "OM"],
     knowsLanguage: ["ar", "en"],
@@ -21,7 +24,7 @@ export function getWebSiteJsonLd() {
     "@type": "WebSite",
     name: siteConfig.name,
     url: siteConfig.url,
-    description: siteConfig.description,
+    description,
     inLanguage: "ar",
   };
 }
@@ -33,7 +36,7 @@ export function getSoftwareApplicationJsonLd() {
     name: siteConfig.name,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    description: siteConfig.description,
+    description,
     applicationSubCategory: "Arabic-first restaurant operations concept",
     featureList: ["Arabic-first product concept", "Gulf restaurant workflows"],
     audience: {

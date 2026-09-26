@@ -25,8 +25,11 @@ import {
 import { trackEarlyAccessClick, trackEvent } from "@/lib/analytics";
 import type { UserRole } from "@/types";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 export function EarlyAccessForm() {
+  const messages = useDictionary();
+  const copy = messages.earlyAccess.form;
   const [submissionState, setSubmissionState] = useState<
     "unknown" | "checking" | "submitted" | "already_submitted"
   >("unknown");
@@ -86,7 +89,7 @@ export function EarlyAccessForm() {
       setSubmissionState("submitted");
     } catch {
       setSubmissionState("unknown");
-      setError("الوصول المبكر غير متاح حالياً. حاول مرة أخرى لاحقاً.");
+      setError(copy.unavailable);
     } finally {
       setLoading(false);
     }
@@ -95,11 +98,11 @@ export function EarlyAccessForm() {
   if (submissionState === "submitted" || submissionState === "already_submitted") {
     return (
       <SuccessState
-        title={submissionState === "already_submitted" ? "تم إرسال طلبك مسبقاً." : "تم تسجيل اهتمامك."}
+        title={submissionState === "already_submitted" ? copy.alreadySubmittedTitle : copy.submittedTitle}
         description={
           submissionState === "already_submitted"
-            ? "تم إرسال طلب بهذا البريد الإلكتروني مسبقاً. سنبقيك على اطلاع بما نبنيه لاحقاً."
-            : "تم إرسال طلبك بنجاح. سنبقيك على اطلاع بما نبنيه لاحقاً، دون أن يمثل ذلك قبولاً أو وعداً بإتاحة فورية."
+            ? copy.alreadySubmittedDescription
+            : copy.submittedDescription
         }
       />
     );
@@ -113,7 +116,7 @@ export function EarlyAccessForm() {
       className="space-y-6"
     >
       <div className="grid gap-6 sm:grid-cols-2">
-        <FormField label="الاسم الأول" htmlFor="firstName" required>
+        <FormField label={copy.firstName} htmlFor="firstName" required>
           <Input
             id="firstName"
             value={form.firstName}
@@ -122,7 +125,7 @@ export function EarlyAccessForm() {
             className="h-11"
           />
         </FormField>
-        <FormField label="اسم العائلة" htmlFor="lastName" required>
+        <FormField label={copy.lastName} htmlFor="lastName" required>
           <Input
             id="lastName"
             value={form.lastName}
@@ -133,7 +136,7 @@ export function EarlyAccessForm() {
         </FormField>
       </div>
 
-      <FormField label="البريد الإلكتروني" htmlFor="email" required>
+      <FormField label={copy.email} htmlFor="email" required>
         <Input
           id="email"
           type="email"
@@ -145,17 +148,17 @@ export function EarlyAccessForm() {
         />
       </FormField>
       {submissionState === "checking" && (
-        <p className="text-sm text-muted-foreground">جارٍ التحقق من الطلبات السابقة...</p>
+        <p className="text-sm text-muted-foreground">{copy.checking}</p>
       )}
-      <FormField label="الدولة" htmlFor="country" required>
+      <FormField label={copy.country} htmlFor="country" required>
         <Select value={form.country} onValueChange={(v) => update("country", v ?? "")} required>
           <SelectTrigger className="h-11 w-full">
-            <SelectValue placeholder="اختر الدولة" />
+            <SelectValue placeholder={copy.chooseCountry} />
           </SelectTrigger>
           <SelectContent>
-            {GCC_COUNTRIES.map((c) => (
+            {GCC_COUNTRIES.map((c, index) => (
               <SelectItem key={c.value} value={c.value}>
-                {c.label}
+                {copy.countryOptions[index]}
               </SelectItem>
             ))}
           </SelectContent>
@@ -163,15 +166,15 @@ export function EarlyAccessForm() {
       </FormField>
 
       <div>
-        <p className="mb-3 text-sm font-medium">أنا</p>
+        <p className="mb-3 text-sm font-medium">{copy.rolePrompt}</p>
         <RadioGroup
           value={role}
           onValueChange={(v) => setRole(v as UserRole)}
           className="grid gap-3 sm:grid-cols-2"
         >
           {[
-            { value: "restaurant_owner", label: "صاحب مطعم" },
-            { value: "customer", label: "عميل" },
+            { value: "restaurant_owner", label: copy.roleOwner },
+            { value: "customer", label: copy.roleCustomer },
           ].map((r) => (
             <Label
               key={r.value}
@@ -189,9 +192,9 @@ export function EarlyAccessForm() {
       </div>
 
       <FormField
-        label="اسم المطعم"
+        label={copy.restaurantName}
         htmlFor="restaurantName"
-        hint={role === "customer" ? "اختياري" : undefined}
+        hint={role === "customer" ? messages.common.optional : undefined}
       >
         <Input
           id="restaurantName"
@@ -201,46 +204,46 @@ export function EarlyAccessForm() {
         />
       </FormField>
 
-      <FormField label="حجم المطعم" htmlFor="restaurantSize" required>
+      <FormField label={copy.restaurantSize} htmlFor="restaurantSize" required>
         <Select
           value={form.restaurantSize}
           onValueChange={(v) => update("restaurantSize", v ?? "")}
           required
         >
           <SelectTrigger className="h-11 w-full">
-            <SelectValue placeholder="اختر الحجم" />
+            <SelectValue placeholder={copy.chooseSize} />
           </SelectTrigger>
           <SelectContent>
-            {RESTAURANT_SIZES.map((s) => (
+            {RESTAURANT_SIZES.map((s, index) => (
               <SelectItem key={s.value} value={s.value}>
-                {s.label}
+                {copy.sizeOptions[index]}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </FormField>
 
-      <FormField label="نظام POS الحالي" htmlFor="currentPos" hint="اختياري">
+      <FormField label={copy.posSystem} htmlFor="currentPos" hint={messages.common.optional}>
         <Select value={form.currentPos} onValueChange={(v) => update("currentPos", v ?? "")}>
           <SelectTrigger className="h-11 w-full">
-            <SelectValue placeholder="اختر النظام" />
+            <SelectValue placeholder={copy.choosePos} />
           </SelectTrigger>
           <SelectContent>
-            {POS_SYSTEMS.map((p) => (
+            {POS_SYSTEMS.map((p, index) => (
               <SelectItem key={p.value} value={p.value}>
-                {p.label}
+                {copy.posOptions[index]}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </FormField>
 
-      <FormField label="رسالة" htmlFor="message" hint="اختياري">
+      <FormField label={copy.message} htmlFor="message" hint={messages.common.optional}>
         <Textarea
           id="message"
           value={form.message}
           onChange={(e) => update("message", e.target.value)}
-          placeholder="أخبرنا عن تحديات مطعمك أو اهتماماتك..."
+          placeholder={copy.messagePlaceholder}
           rows={4}
         />
       </FormField>
@@ -261,7 +264,7 @@ export function EarlyAccessForm() {
         ) : (
           <>
             <Send className="size-4" />
-            إرسال طلب الوصول المبكر
+            {copy.submit}
           </>
         )}
       </Button>

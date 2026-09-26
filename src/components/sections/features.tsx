@@ -15,8 +15,9 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/shared/fade-in";
-import { features } from "@/lib/content";
+import { featureKeys } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 const iconMap = {
   operations: Workflow,
@@ -28,6 +29,9 @@ const iconMap = {
 } as const;
 
 export function FeaturesSection() {
+  const messages = useDictionary();
+  const features = featureKeys.map((key) => ({ key, ...messages.home.features.items[key] }));
+
   return (
     <section id="features" className="relative py-24 md:py-32">
       <motion.div
@@ -38,16 +42,16 @@ export function FeaturesSection() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="حلول تشغيلية"
-          title="كل ما يحتاجه مطعمك — في منصة واحدة"
-          description="نركز على نتائج أعمالك: تقليل التكاليف، تسريع العمليات، وامتثال أسهل. الذكاء الاصطناعي يعمل خلف الكواليس."
+          badge={messages.home.features.badge}
+          title={messages.home.features.title}
+          description={messages.home.features.description}
         />
 
         <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {features.map((feature, index) => {
-            const Icon = iconMap[feature.icon];
+            const Icon = iconMap[feature.key];
             return (
-              <StaggerItem key={feature.title}>
+              <StaggerItem key={feature.key}>
                 <Card
                   className={cn(
                     "group h-full border-border/50 bg-card/50 py-6 backdrop-blur transition-all duration-300",

@@ -6,6 +6,7 @@ import { LinkButton } from "@/components/ui/link-button";
 import { ROUTES } from "@/lib/constants";
 import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 interface SuccessStateProps {
   title: string;
@@ -17,11 +18,13 @@ interface SuccessStateProps {
 export function SuccessState({
   title,
   description,
-  actionLabel = "العودة للرئيسية",
+  actionLabel,
   actionHref,
 }: SuccessStateProps) {
   const locale = useLocale();
+  const messages = useDictionary();
   const destination = actionHref ?? localePath(ROUTES.home, locale);
+  const label = actionLabel ?? messages.common.returnHome;
 
   return (
     <motion.div
@@ -46,7 +49,7 @@ export function SuccessState({
         href={destination}
         className="mt-8 bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
       >
-        {actionLabel}
+        {label}
       </LinkButton>
     </motion.div>
   );

@@ -16,10 +16,13 @@ import { trackEvent } from "@/lib/analytics";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 export function SignupForm() {
   const router = useRouter();
   const locale = useLocale();
+  const messages = useDictionary();
+  const copy = messages.auth.signup;
   const localizedPath = (path: string) => localePath(path, locale);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,11 +42,11 @@ export function SignupForm() {
     setError("");
 
     if (password.length < 8) {
-      setError("كلمة المرور يجب أن تكون ٨ أحرف على الأقل");
+      setError(copy.passwordTooShort);
       return;
     }
     if (password !== confirmPassword) {
-      setError("كلمتا المرور غير متطابقتين");
+      setError(copy.passwordsMismatch);
       return;
     }
 
@@ -51,7 +54,7 @@ export function SignupForm() {
     trackEvent("signup_started", { method: "email" });
     try {
       if (!isFirebaseConfigured()) {
-        setError("Firebase غير مُعدّ. أضف متغيرات البيئة في .env.local");
+        setError(copy.firebaseNotConfigured);
         return;
       }
       await signUp(email, password);
@@ -60,11 +63,11 @@ export function SignupForm() {
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
       if (message.includes("email-already-in-use")) {
-        setError("هذا البريد الإلكتروني مسجّل مسبقاً");
+        setError(copy.emailAlreadyInUse);
       } else if (message.includes("weak-password")) {
-        setError("كلمة المرور ضعيفة. استخدم ٨ أحرف على الأقل");
+        setError(copy.weakPassword);
       } else {
-        setError("حدث خطأ. حاول مرة أخرى.");
+        setError(copy.genericError);
       }
     } finally {
       setLoading(false);
@@ -72,7 +75,7 @@ export function SignupForm() {
   }
 
   if (authLoading || user) {
-    return <p className="py-8 text-center text-muted-foreground">جارٍ التحقق من الحساب...</p>;
+    return <p className="py-8 text-center text-muted-foreground">{copy.checking}</p>;
   }
 
   return (
@@ -91,43 +94,43 @@ export function SignupForm() {
 
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-3 text-muted-foreground">
-            أو
+            {messages.auth.separator}
           </span>
         </div>
       </div>
-      <FormField label="البريد الإلكتروني" htmlFor="email" required>
+      <FormField label={copy.emailLabel} htmlFor="email" required>
         <Input
           id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="name@restaurant.com"
+          placeholder={copy.emailPlaceholder}
           required
           dir="ltr"
           className="h-11"
         />
       </FormField>
 
-      <FormField label="كلمة المرور" htmlFor="password" required hint="٨ أحرف على الأقل">
+      <FormField label={copy.passwordLabel} htmlFor="password" required hint={copy.passwordHint}>
         <Input
           id="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
+          placeholder={copy.passwordPlaceholder}
           required
           dir="ltr"
           className="h-11"
         />
       </FormField>
 
-      <FormField label="تأكيد كلمة المرور" htmlFor="confirmPassword" required>
+      <FormField label={copy.confirmPasswordLabel} htmlFor="confirmPassword" required>
         <Input
           id="confirmPassword"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="••••••••"
+          placeholder={copy.passwordPlaceholder}
           required
           dir="ltr"
           className="h-11"
@@ -150,15 +153,15 @@ export function SignupForm() {
         ) : (
           <>
             <UserPlus className="size-4" />
-            إنشاء حساب
+            {copy.submit}
           </>
         )}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        لديك حساب؟{" "}
+        {copy.hasAccount}{" "}
         <Link href={localizedPath(ROUTES.login)} className="text-gold hover:underline">
-          تسجيل الدخول
+          {copy.loginLink}
         </Link>
       </p>
     </motion.form>

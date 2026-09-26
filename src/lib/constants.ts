@@ -13,21 +13,21 @@ export const ROUTES = {
 } as const;
 
 export const GCC_COUNTRIES = [
-  { value: "sa", label: "المملكة العربية السعودية" },
-  { value: "ae", label: "الإمارات العربية المتحدة" },
-  { value: "qa", label: "قطر" },
-  { value: "kw", label: "الكويت" },
-  { value: "bh", label: "البحرين" },
-  { value: "om", label: "عُمان" },
+  { value: "sa" },
+  { value: "ae" },
+  { value: "qa" },
+  { value: "kw" },
+  { value: "bh" },
+  { value: "om" },
 ] as const;
 
 export const RESTAURANT_SIZES = [
-  { value: "single", label: "فرع واحد" },
-  { value: "small", label: "٢–٥ فروع" },
-  { value: "medium", label: "٦–١٥ فرعاً" },
-  { value: "large", label: "أكثر من ١٥ فرعاً" },
-  { value: "chain", label: "سلسلة مطاعم" },
-  { value: "na", label: "غير مطبّق (عميل)" },
+  { value: "single" },
+  { value: "small" },
+  { value: "medium" },
+  { value: "large" },
+  { value: "chain" },
+  { value: "na" },
 ] as const;
 
 export const POS_SYSTEMS = [
@@ -36,9 +36,9 @@ export const POS_SYSTEMS = [
   { value: "oracle", label: "Oracle MICROS" },
   { value: "lightspeed", label: "Lightspeed" },
   { value: "square", label: "Square" },
-  { value: "custom", label: "نظام مخصص" },
-  { value: "none", label: "لا يوجد نظام POS" },
-  { value: "other", label: "أخرى" },
+  { value: "custom" },
+  { value: "none" },
+  { value: "other" },
 ] as const;
 
 export const FIRESTORE_COLLECTIONS = {

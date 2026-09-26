@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { subscribeEmail } from "@/lib/firebase/firestore";
 import { isFirebaseConfigured } from "@/lib/firebase/config";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 interface EmailSubscribeFormProps {
   source: string;
@@ -13,6 +14,7 @@ interface EmailSubscribeFormProps {
 }
 
 export function EmailSubscribeForm({ source, className }: EmailSubscribeFormProps) {
+  const messages = useDictionary();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -37,7 +39,7 @@ export function EmailSubscribeForm({ source, className }: EmailSubscribeFormProp
   if (status === "success") {
     return (
       <p className="text-sm text-emerald">
-        شكراً! سنُبلغك عند الإطلاق.
+        {messages.subscribe.success}
       </p>
     );
   }
@@ -49,7 +51,7 @@ export function EmailSubscribeForm({ source, className }: EmailSubscribeFormProp
           <Mail className="absolute top-1/2 right-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="email"
-            placeholder="بريدك الإلكتروني"
+            placeholder={messages.subscribe.emailPlaceholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -65,13 +67,13 @@ export function EmailSubscribeForm({ source, className }: EmailSubscribeFormProp
           {status === "loading" ? (
             <Loader2 className="size-4 animate-spin" />
           ) : (
-            "أبلغني"
+            messages.subscribe.submit
           )}
         </Button>
       </div>
       {status === "error" && (
         <p className="mt-2 text-xs text-destructive">
-          حدث خطأ. حاول مرة أخرى.
+          {messages.subscribe.error}
         </p>
       )}
     </form>

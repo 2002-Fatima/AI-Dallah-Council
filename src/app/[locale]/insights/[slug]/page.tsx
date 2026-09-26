@@ -9,6 +9,7 @@ import { insightArticles, siteConfig } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
 import { LOCALES, localePath, type Locale } from "@/lib/i18n";
 import { withLocaleMetadata } from "@/lib/locale-metadata";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 interface Props {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -22,8 +23,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const article = insightArticles.find((a) => a.slug === slug);
-  if (!article) return { title: "غير موجود" };
+  const articleReference = insightArticles.find((item) => item.slug === slug);
+  if (!articleReference) return { title: "غير موجود" };
+  const article = getDictionary(locale).insights.articles[articleReference.contentKey];
 
   return withLocaleMetadata(locale, `/insights/${slug}`, {
     title: article.title,
@@ -37,8 +39,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function InsightArticlePage({ params }: Props) {
   const { locale, slug } = await params;
-  const article = insightArticles.find((a) => a.slug === slug);
-  if (!article) notFound();
+  const articleReference = insightArticles.find((item) => item.slug === slug);
+  if (!articleReference) notFound();
+  const messages = getDictionary(locale);
+  const article = messages.insights.articles[articleReference.contentKey];
 
   return (
     <PageLayout locale={locale}>
@@ -48,7 +52,7 @@ export default async function InsightArticlePage({ params }: Props) {
           className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-gold"
         >
           <ArrowRight className="size-4" />
-          العودة للرؤى
+          {messages.insights.back}
         </Link>
 
         <Badge variant="outline" className="border-gold/30 text-gold">
@@ -76,15 +80,15 @@ export default async function InsightArticlePage({ params }: Props) {
         </div>
 
         <div className="mt-12 rounded-2xl border border-gold/30 bg-gold/5 p-8 text-center">
-          <h3 className="text-xl font-bold">مهتم بـ مجلس الدلّة؟</h3>
+          <h3 className="text-xl font-bold">{messages.insights.articleCtaTitle}</h3>
           <p className="mt-2 text-muted-foreground">
-            شارك في التحقق من احتياجات مطاعم الخليج واتجاه المنتج
+            {messages.insights.articleCtaDescription}
           </p>
           <LinkButton
             href={localePath(ROUTES.earlyAccess, locale)}
             className="mt-6 bg-gradient-to-l from-gold to-gold-dim text-background hover:opacity-90"
           >
-            انضم للوصول المبكر
+            {messages.insights.articleCtaButton}
           </LinkButton>
         </div>
       </article>

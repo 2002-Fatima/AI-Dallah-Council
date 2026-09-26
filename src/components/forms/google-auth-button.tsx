@@ -12,6 +12,7 @@ import { trackLoginClick } from "@/lib/analytics";
 import { GoogleIcon } from "@/components/shared/google-icon";
 import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 type Props = {
   redirectTo?: string;
@@ -24,6 +25,7 @@ export function GoogleAuthButton({
 }: Props) {
   const router = useRouter();
   const locale = useLocale();
+  const messages = useDictionary();
   const destination = redirectTo ?? localePath(ROUTES.home, locale);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -45,7 +47,7 @@ export function GoogleAuthButton({
       }
       router.push(destination);
     } catch {
-      setError("حدث خطأ في المصادقة باستخدام Google. حاول مرة أخرى.");
+      setError(messages.auth.googleError);
     } finally {
       setLoading(false);
     }
@@ -65,7 +67,7 @@ export function GoogleAuthButton({
         ) : (
           <>
             <GoogleIcon className="h-5 w-5" />
-            المتابعة باستخدام Google
+            {messages.auth.googleContinue}
           </>
         )}
       </Button>

@@ -13,14 +13,15 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
-import { siteConfig } from "@/lib/content";
 import { ROUTES } from "@/lib/constants";
 import { trackEarlyAccessClick, trackCtaClick } from "@/lib/analytics";
 import { useLocale } from "@/components/providers/locale-provider";
+import { useDictionary } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
 
 export function HeroSection() {
   const locale = useLocale();
+  const messages = useDictionary();
   const localizedPath = (path: string) => localePath(path, locale);
 
   return (
@@ -56,7 +57,7 @@ export function HeroSection() {
           <motion.div variants={item}>
             <Badge className="border-gold/20 bg-gold/10 px-4 py-1.5 text-gold">
               <Layers className="ml-1.5 size-3.5" />
-              نظام تشغيل للمطاعم · مبني للخليج
+              {messages.home.hero.badge}
             </Badge>
           </motion.div>
 
@@ -64,10 +65,10 @@ export function HeroSection() {
             variants={item}
             className="text-4xl font-extrabold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl"
           >
-            <span className="text-foreground">شغّل مطعمك</span>
+            <span className="text-foreground">{messages.home.hero.titleLead}</span>
             <br />
             <span className="bg-gradient-to-l from-gold via-gold-light to-gold bg-clip-text text-transparent">
-              بذكاء أكبر
+              {messages.home.hero.titleHighlight}
             </span>
           </motion.h1>
 
@@ -75,8 +76,7 @@ export function HeroSection() {
             variants={item}
             className="mx-auto max-w-xl text-lg leading-relaxed text-muted-foreground lg:mx-0"
           >
-            {siteConfig.tagline}. منصة واحدة تبسّط العمليات، الامتثال، المدفوعات،
-            والتحليلات — مصممة خصيصاً لمطاعم السعودية والإمارات وقطر والكويت.
+            {messages.home.hero.tagline}{messages.home.hero.pitch}
           </motion.p>
 
           <motion.div
@@ -89,7 +89,7 @@ export function HeroSection() {
               className="h-12 w-full bg-gradient-to-l from-gold to-gold-dim px-8 text-base font-semibold text-background shadow-xl shadow-gold/30 hover:opacity-90 sm:w-auto"
               onClick={() => trackEarlyAccessClick("hero_primary")}
             >
-              انضم للوصول المبكر
+              {messages.home.hero.earlyAccess}
               <ArrowLeft className="size-4" />
             </LinkButton>
             <LinkButton
@@ -100,7 +100,7 @@ export function HeroSection() {
               onClick={() => trackCtaClick("watch_demo", localizedPath(ROUTES.demo))}
             >
               <Play className="size-4 fill-current" />
-              شاهد العرض التوضيحي
+              {messages.home.hero.demo}
             </LinkButton>
           </motion.div>
 
@@ -110,7 +110,7 @@ export function HeroSection() {
           >
             <div className="flex items-center gap-2">
               <span className="flex -space-x-2 space-x-reverse">
-                {["ف", "أ", "ن"].map((letter) => (
+                {messages.home.hero.communityLetters.map((letter) => (
                   <span
                     key={letter}
                     className="flex size-8 items-center justify-center rounded-full border-2 border-background bg-gradient-to-br from-gold/80 to-emerald/80 text-xs font-bold text-background"
@@ -120,8 +120,8 @@ export function HeroSection() {
                 ))}
               </span>
               <span className="text-sm text-muted-foreground">
-                <strong className="text-foreground">مرحلة تحقق</strong> لفهم
-                ما يستحق البناء أولاً
+                <strong className="text-foreground">{messages.home.hero.validationStrong}</strong>
+                {messages.home.hero.validationRest}
               </span>
             </div>
             <div className="flex items-center gap-1 text-gold">
@@ -129,7 +129,7 @@ export function HeroSection() {
                 <Star key={i} className="size-4 fill-gold" />
               ))}
               <span className="mr-1 text-sm text-muted-foreground">
-                مفهوم عربي أولاً
+                {messages.home.hero.concept}
               </span>
             </div>
           </motion.div>
@@ -152,8 +152,8 @@ export function HeroSection() {
                   <TrendingUp className="size-5 text-emerald" />
                 </span>
                 <div>
-                  <p className="text-xs text-muted-foreground">كفاءة التشغيل</p>
-                      <p className="text-lg font-bold text-gold">مفهوم</p>
+                    <p className="text-xs text-muted-foreground">{messages.home.hero.operationsEfficiency}</p>
+                      <p className="text-lg font-bold text-gold">{messages.home.hero.conceptStatus}</p>
                 </div>
               </div>
             </motion.div>
@@ -161,7 +161,7 @@ export function HeroSection() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-[1.35rem]">
               <Image
                 src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&q=85"
-                alt="مطعم خليجي حديث مع لوحة تحكم ذكية"
+                alt={messages.home.hero.imageAlt}
                 fill
                 className="object-cover"
                 priority
@@ -180,10 +180,10 @@ export function HeroSection() {
                   </span>
                   <div className="flex-1 text-start">
                     <p className="text-xs text-muted-foreground">
-                      تصور لوحة التشغيل الموحدة
+                      {messages.home.hero.dashboardConcept}
                     </p>
                     <p className="text-sm font-medium">
-                      طلبات · مدفوعات · امتثال · تحليلات — في مكان واحد
+                      {messages.home.hero.dashboardFeatures}
                     </p>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export function HeroSection() {
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4, repeat: Infinity }}
           >
-            <p className="text-xs text-emerald">مسارات مستقبلية</p>
+            <p className="text-xs text-emerald">{messages.home.hero.futureTracks}</p>
             <p className="font-semibold">ZATCA · MADA</p>
           </motion.div>
         </motion.div>
@@ -211,7 +211,7 @@ export function HeroSection() {
           href="#features"
           className="flex flex-col items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-gold"
         >
-          <span>اكتشف المزيد</span>
+          <span>{messages.home.hero.discoverMore}</span>
           <span className="block h-8 w-px bg-gradient-to-b from-gold to-transparent" />
         </Link>
       </motion.div>

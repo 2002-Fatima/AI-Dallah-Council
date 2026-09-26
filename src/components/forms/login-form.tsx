@@ -16,10 +16,13 @@ import { trackLoginClick } from "@/lib/analytics";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
+import { useDictionary } from "@/components/providers/locale-provider";
 
 export function LoginForm() {
   const router = useRouter();
   const locale = useLocale();
+  const messages = useDictionary();
+  const copy = messages.auth.login;
   const localizedPath = (path: string) => localePath(path, locale);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,20 +44,20 @@ export function LoginForm() {
 
     try {
       if (!isFirebaseConfigured()) {
-        setError("Firebase غير مُعدّ. أضف متغيرات البيئة في .env.local");
+        setError(copy.firebaseNotConfigured);
         return;
       }
       await signIn(email, password);
       router.push(localizedPath(ROUTES.home));
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : "فشل تسجيل الدخول";
+        err instanceof Error ? err.message : copy.failed;
       if (message.includes("invalid-credential") || message.includes("wrong-password")) {
-        setError("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+        setError(copy.invalidCredentials);
       } else if (message.includes("user-not-found")) {
-        setError("لا يوجد حساب بهذا البريد الإلكتروني");
+        setError(copy.userNotFound);
       } else {
-        setError("حدث خطأ. حاول مرة أخرى.");
+        setError(copy.genericError);
       }
     } finally {
       setLoading(false);
@@ -62,7 +65,7 @@ export function LoginForm() {
   }
 
   if (authLoading || user) {
-    return <p className="py-8 text-center text-muted-foreground">جارٍ التحقق من الحساب...</p>;
+    return <p className="py-8 text-center text-muted-foreground">{copy.checking}</p>;
   }
 
   return (
@@ -81,30 +84,30 @@ export function LoginForm() {
 
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-3 text-muted-foreground">
-            أو
+            {messages.auth.separator}
           </span>
         </div>
       </div>
-      <FormField label="البريد الإلكتروني" htmlFor="email" required>
+      <FormField label={copy.emailLabel} htmlFor="email" required>
         <Input
           id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="name@restaurant.com"
+          placeholder={copy.emailPlaceholder}
           required
           dir="ltr"
           className="h-11"
         />
       </FormField>
 
-      <FormField label="كلمة المرور" htmlFor="password" required>
+      <FormField label={copy.passwordLabel} htmlFor="password" required>
         <Input
           id="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
+          placeholder={copy.passwordPlaceholder}
           required
           dir="ltr"
           className="h-11"
@@ -127,15 +130,15 @@ export function LoginForm() {
         ) : (
           <>
             <LogIn className="size-4" />
-            تسجيل الدخول
+            {copy.submit}
           </>
         )}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        ليس لديك حساب؟{" "}
+        {copy.noAccount}{" "}
         <Link href={localizedPath(ROUTES.signup)} className="text-gold hover:underline">
-          إنشاء حساب
+          {copy.signupLink}
         </Link>
       </p>
     </motion.form>

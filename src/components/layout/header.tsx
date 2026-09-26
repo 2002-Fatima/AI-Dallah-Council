@@ -11,6 +11,7 @@ import { ROUTES } from "@/lib/constants";
 import { trackEarlyAccessClick, trackLoginClick } from "@/lib/analytics";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useLocale } from "@/components/providers/locale-provider";
+import { useDictionary } from "@/components/providers/locale-provider";
 import { localePath } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,7 @@ export function Header() {
   const [loggingOut, setLoggingOut] = useState(false);
   const { user, loading: authLoading, logout } = useAuth();
   const locale = useLocale();
+  const messages = useDictionary();
   const localizedPath = (path: string) => localePath(path, locale);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export function Header() {
     }
   }
 
-  const accountName = user?.displayName || user?.email || "حسابك";
+  const accountName = user?.displayName || user?.email || messages.navigation.account;
   const accountInitial = accountName.trim().charAt(0).toUpperCase();
 
   return (
@@ -82,7 +84,7 @@ export function Header() {
               href={localizedPath(link.href)}
               className="text-sm text-muted-foreground transition-colors hover:text-gold"
             >
-              {link.label}
+              {messages.navigation[link.key]}
             </Link>
           ))}
         </nav>
@@ -119,7 +121,7 @@ export function Header() {
                     role="menuitem"
                     onClick={() => setAccountOpen(false)}
                   >
-                    الملف الشخصي
+                    {messages.navigation.profile}
                   </Link>
                   <Link
                     href={localizedPath(ROUTES.earlyAccess)}
@@ -127,7 +129,7 @@ export function Header() {
                     role="menuitem"
                     onClick={() => setAccountOpen(false)}
                   >
-                    الوصول المبكر
+                    {messages.navigation.earlyAccess}
                   </Link>
                   <button
                     type="button"
@@ -136,7 +138,7 @@ export function Header() {
                     disabled={loggingOut}
                     onClick={handleLogout}
                   >
-                    {loggingOut ? "جارٍ تسجيل الخروج" : "تسجيل الخروج"}
+                    {loggingOut ? messages.navigation.loggingOut : messages.navigation.logout}
                   </button>
                 </div>
               )}
@@ -150,7 +152,7 @@ export function Header() {
                 className="text-muted-foreground"
                 onClick={() => trackLoginClick("header")}
               >
-                تسجيل الدخول
+                {messages.navigation.login}
               </LinkButton>
               <LinkButton
                 href={localizedPath(ROUTES.earlyAccess)}
@@ -158,7 +160,7 @@ export function Header() {
                 className="bg-gradient-to-l from-gold to-gold-dim px-5 font-semibold text-background shadow-lg shadow-gold/25 hover:opacity-90"
                 onClick={() => trackEarlyAccessClick("header")}
               >
-                انضم للوصول المبكر
+                {messages.navigation.earlyAccess}
               </LinkButton>
             </>
           )}
@@ -168,7 +170,7 @@ export function Header() {
           type="button"
           className="flex size-10 items-center justify-center rounded-lg border border-border/60 lg:hidden"
           onClick={() => setOpen(!open)}
-          aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
+          aria-label={open ? messages.navigation.menuClose : messages.navigation.menuOpen}
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
@@ -195,7 +197,7 @@ export function Header() {
                     onClick={() => setOpen(false)}
                     className="block rounded-lg px-3 py-3 text-base text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                   >
-                    {link.label}
+                    {messages.navigation[link.key]}
                   </Link>
                 </motion.div>
               ))}
@@ -205,14 +207,14 @@ export function Header() {
                 ) : user ? (
                   <>
                     <LinkButton href={localizedPath(ROUTES.profile)} variant="outline" className="w-full" onClick={() => setOpen(false)}>
-                      الملف الشخصي
+                      {messages.navigation.profile}
                     </LinkButton>
                     <LinkButton
                       href={localizedPath(ROUTES.earlyAccess)}
                       className="w-full bg-gradient-to-l from-gold to-gold-dim text-background"
                       onClick={() => setOpen(false)}
                     >
-                      الوصول المبكر
+                      {messages.navigation.earlyAccess}
                     </LinkButton>
                     <button
                       type="button"
@@ -220,7 +222,7 @@ export function Header() {
                       onClick={handleLogout}
                       disabled={loggingOut}
                     >
-                      {loggingOut ? "جارٍ تسجيل الخروج" : "تسجيل الخروج"}
+                      {loggingOut ? messages.navigation.loggingOut : messages.navigation.logout}
                     </button>
                   </>
                 ) : (
@@ -231,14 +233,14 @@ export function Header() {
                       className="w-full"
                       onClick={() => trackLoginClick("mobile_menu")}
                     >
-                      تسجيل الدخول
+                      {messages.navigation.login}
                     </LinkButton>
                     <LinkButton
                       href={localizedPath(ROUTES.earlyAccess)}
                       className="w-full bg-gradient-to-l from-gold to-gold-dim text-background"
                       onClick={() => trackEarlyAccessClick("mobile_menu")}
                     >
-                      انضم للوصول المبكر
+                      {messages.navigation.earlyAccess}
                     </LinkButton>
                   </>
                 )}
