@@ -10,6 +10,16 @@ import { LocaleProvider } from "@/components/providers/locale-provider";
 import { isLocale, LOCALES, localeConfig, localePath } from "@/lib/i18n";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
+const buildLocaleAlternates = (pathname: string) => {
+  const languages = Object.fromEntries(
+    LOCALES.map((altLocale) => [altLocale, new URL(localePath(pathname, altLocale), siteConfig.url).toString()])
+  ) as Record<string, string>;
+
+  languages["x-default"] = new URL(localePath(pathname, "ar"), siteConfig.url).toString();
+
+  return languages;
+};
+
 const cairo = Cairo({
   variable: "--font-cairo",
   subsets: ["arabic", "latin"],
@@ -43,6 +53,7 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
     publisher: siteConfig.name,
     alternates: {
       canonical: new URL(localePath("/", locale), siteConfig.url),
+      languages: buildLocaleAlternates("/"),
     },
     openGraph: {
       type: "website",

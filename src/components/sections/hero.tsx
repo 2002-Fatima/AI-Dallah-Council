@@ -152,8 +152,8 @@ export function HeroSection() {
                   <TrendingUp className="size-5 text-emerald" />
                 </span>
                 <div>
-                    <p className="text-xs text-muted-foreground">{messages.home.hero.operationsEfficiency}</p>
-                      <p className="text-lg font-bold text-gold">{messages.home.hero.conceptStatus}</p>
+                  <p className="text-xs text-muted-foreground">{messages.home.hero.operationsEfficiency}</p>
+                  <p className="text-lg font-bold text-gold">{messages.home.hero.conceptStatus}</p>
                 </div>
               </div>
             </motion.div>
@@ -197,7 +197,7 @@ export function HeroSection() {
             transition={{ duration: 4, repeat: Infinity }}
           >
             <p className="text-xs text-emerald">{messages.home.hero.futureTracks}</p>
-            <p className="font-semibold">ZATCA · MADA</p>
+            <p className="font-semibold">ZATCA · مدى</p>
           </motion.div>
         </motion.div>
       </motion.div>
