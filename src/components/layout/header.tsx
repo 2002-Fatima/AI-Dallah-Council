@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { LinkButton } from "@/components/ui/link-button";
@@ -12,8 +13,14 @@ import { trackEarlyAccessClick, trackLoginClick } from "@/lib/analytics";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import { useDictionary } from "@/components/providers/locale-provider";
-import { localePath } from "@/lib/i18n";
+import { LOCALES, localePath, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+
+const localeOptions: { value: Locale; label: string }[] = [
+  { value: "ar", label: "العربية" },
+  { value: "en", label: "English" },
+  { value: "ur", label: "اردو" },
+];
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -23,7 +30,18 @@ export function Header() {
   const { user, loading: authLoading, logout } = useAuth();
   const locale = useLocale();
   const messages = useDictionary();
+  const pathname = usePathname() ?? "/";
   const localizedPath = (path: string) => localePath(path, locale);
+
+  const buildLocaleHref = (nextLocale: Locale) => {
+    const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+    const strippedPath = normalizedPath.replace(/^\/(ar|en|ur)(?=\/|$)/, "") || "/";
+    const basePath = `/${nextLocale}${strippedPath === "/" ? "" : strippedPath}`;
+    const queryString = typeof window !== "undefined" ? window.location.search : "";
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
+
+    return `${basePath}${queryString}${hash}`;
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -90,6 +108,26 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <div className="flex items-center gap-1 rounded-full border border-border/60 bg-background/80 p-1 shadow-sm backdrop-blur-sm">
+            {localeOptions.map((option) => {
+              const isActive = option.value === locale;
+              return (
+                <Link
+                  key={option.value}
+                  href={buildLocaleHref(option.value)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    "rounded-full px-2.5 py-1.5 text-xs font-medium transition-colors",
+                    isActive
+                      ? "bg-foreground text-background"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  {option.label}
+                </Link>
+              );
+            })}
+          </div>
           {authLoading ? (
             <div className="h-9 w-32 animate-pulse rounded-lg bg-muted" aria-hidden="true" />
           ) : user ? (
@@ -202,6 +240,27 @@ export function Header() {
                 </motion.div>
               ))}
               <div className="mt-4 flex flex-col gap-2 border-t border-border/50 pt-4">
+                <div className="grid grid-cols-3 gap-1 rounded-xl border border-border/60 bg-background/80 p-1">
+                  {localeOptions.map((option) => {
+                    const isActive = option.value === locale;
+                    return (
+                      <Link
+                        key={option.value}
+                        href={buildLocaleHref(option.value)}
+                        aria-current={isActive ? "page" : undefined}
+                        onClick={() => setOpen(false)}
+                        className={cn(
+                          "rounded-lg px-2 py-2 text-center text-xs font-medium transition-colors",
+                          isActive
+                            ? "bg-foreground text-background"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        )}
+                      >
+                        {option.label}
+                      </Link>
+                    );
+                  })}
+                </div>
                 {authLoading ? (
                   <div className="h-11 w-full animate-pulse rounded-lg bg-muted" aria-hidden="true" />
                 ) : user ? (
