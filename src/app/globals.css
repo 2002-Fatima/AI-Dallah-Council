@@ -53,6 +53,7 @@
 }
 
 :root {
+  --font-cairo: "Cairo", "Segoe UI", Tahoma, sans-serif;
   --gold: oklch(0.78 0.12 85);
   --gold-light: oklch(0.85 0.1 90);
   --gold-dim: oklch(0.65 0.1 80);
@@ -111,9 +112,15 @@
         oklch(0.72 0.14 155 / 0.04),
         transparent
       );
+    background-attachment: fixed;
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: oklch(0.78 0.12 85 / 0.22);
+    color: oklch(0.96 0.01 90);
   }
 }
 

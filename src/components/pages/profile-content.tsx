@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LogOut, Mail, UserRound } from "lucide-react";
 import { PageHero } from "@/components/sections/page-hero";
@@ -75,9 +76,11 @@ export function ProfileContent() {
         <div className="rounded-2xl border border-border/50 bg-card/50 p-8 backdrop-blur md:p-10">
           <div className="flex items-center gap-4">
             {user.photoURL ? (
-              <img
+              <Image
                 src={user.photoURL}
                 alt={displayName}
+                width={64}
+                height={64}
                 className="size-16 rounded-full object-cover"
               />
             ) : (

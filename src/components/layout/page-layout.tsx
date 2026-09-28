@@ -11,7 +11,7 @@ export function PageLayout({ children, locale }: PageLayoutProps) {
   return (
     <>
       <Header />
-      <main className="min-h-screen">{children}</main>
+      <main className="min-h-screen pt-24 md:pt-28 lg:pt-32">{children}</main>
       <Footer locale={locale} />
     </>
   );

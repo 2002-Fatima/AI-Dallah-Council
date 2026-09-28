@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/next";
-import { Cairo } from "next/font/google";
 import "../globals.css";
 import { siteConfig } from "@/lib/content";
 import { StructuredData } from "@/components/shared/structured-data";
@@ -19,12 +18,6 @@ const buildLocaleAlternates = (pathname: string) => {
 
   return languages;
 };
-
-const cairo = Cairo({
-  variable: "--font-cairo",
-  subsets: ["arabic", "latin"],
-  display: "swap",
-});
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -93,7 +86,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     <html
       lang={locale}
       dir={localeConfig[locale].direction}
-      className={`${cairo.variable} dark h-full scroll-smooth antialiased`}
+      className="dark h-full scroll-smooth antialiased"
     >
       <head>
         <StructuredData description={dictionary.seo.description} />

@@ -20,7 +20,7 @@ export function PageHero({
   align = "center",
 }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-16">
+    <section className="relative overflow-hidden pb-12 pt-4 md:pb-16 md:pt-6">
       <motion.div
         className="pointer-events-none absolute -top-32 right-1/3 size-[400px] rounded-full bg-gold/8 blur-[100px]"
         animate={{ opacity: [0.3, 0.5, 0.3] }}

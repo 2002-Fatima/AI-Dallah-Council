@@ -227,6 +227,80 @@ export const en = {
     subscribeTitle: "Subscribe for updates",
     subscribeDescription: "Be among the first to know when this feature launches",
     earlyAccess: "Join early access",
+    conceptSimulation: "Concept simulation",
+    heroTitle: "Friday evening rush",
+    stepLabel: "Step",
+    signalLabel: "Signals",
+    nextAction: "Next",
+    ctaRoadmap: "See roadmap",
+    ctaEarlyAccess: "Join early access",
+    summaryLabel: "What it shows",
+    summaryTitle: "An operational picture under pressure",
+    summaryPoints: [
+      "A single operational moment with multiple moving signals",
+      "Connected context instead of disconnected systems",
+      "Decision support for the restaurant team, not a replacement for it",
+    ],
+    futureLabel: "Future thinking",
+    futureText: "The concept helps explain how AI Dallah could support a Gulf restaurant team without pretending it is live infrastructure.",
+    situation: {
+      title: "Friday evening rush",
+      description:
+        "A Gulf restaurant is approaching peak service hours. Orders are accelerating, kitchen pressure is rising, and the team needs a clear view of what matters most before the bottleneck grows.",
+      highlight: "This is a concept simulation for a future workflow, not a real-time operational system.",
+    },
+    signals: {
+      title: "Connected signals",
+      description:
+        "A few key signals begin to reinforce the same operational issue: demand is rising faster than the team can safely absorb it.",
+      reservationPressure: "Reservation pressure",
+      expectedDemand: "Expected demand",
+      kitchenLoad: "Kitchen load",
+      customerWaitRisk: "Wait-time risk",
+      details: {
+        reservationPressure: "Tables are filling earlier than usual and time-to-seat is tightening.",
+        expectedDemand: "The evening demand curve suggests a sharp spike before peak dinner hours.",
+        kitchenLoad: "Back-of-house flow is starting to compress with limited headroom.",
+        customerWaitRisk: "A growing wait time could affect service quality and repeat visits.",
+      },
+    },
+    council: {
+      title: "AI Council",
+      description:
+        "The Council brings the different operational pressures together and weighs them from multiple perspectives before proposing a single action.",
+      label: "Council",
+      perspectives: {
+        operations: {
+          title: "Operations",
+          description: "Kitchen staffing, service flow, and pressure on the operating team.",
+        },
+        business: {
+          title: "Business",
+          description: "Demand potential, fill rate, and possible trade-offs between service quality and throughput.",
+        },
+        customer: {
+          title: "Customer",
+          description: "Wait-time experience, service consistency, and the risk of friction during a peak period.",
+        },
+      },
+    },
+    synthesis: {
+      title: "Synthesis",
+      description: "The combined picture suggests that a focused operational intervention is more valuable than a general response.",
+      label: "Synthesis",
+      text: "The restaurant is not failing overall. It is entering a peak window where if staffing and flow are not adjusted, service quality can slip at the exact moment demand is strongest.",
+    },
+    recommendation: {
+      title: "Recommended action",
+      description: "The concept recommends a narrow intervention before the service window peaks.",
+      label: "Recommended action",
+      text: "Shift a short-term staffing and kitchen-prep emphasis into the next 45 minutes to protect service quality and reduce bottlenecks.",
+      footer: "This is an illustrative recommendation for a concept prototype, not a production system output.",
+    },
+    humanDecision: {
+      title: "Human decision-maker remains in control",
+      text: "The restaurant team still decides what to act on, how to adapt, and which trade-offs are acceptable in the moment.",
+    },
   },
   roadmap: {
     metadata: {
@@ -247,6 +321,7 @@ export const en = {
       planned: "Planned",
       itemCount: "items",
     },
+    currentStageLabel: "Current stage",
     items: {
       completed: [
         { title: "Landing page", titleEn: "Landing Platform" },
@@ -272,6 +347,65 @@ export const en = {
         { title: "Reservation intelligence", titleEn: "Reservation Intelligence" },
         { title: "Customer insights", titleEn: "Customer Insights" },
       ],
+    },
+    timeline: {
+      validate: {
+        label: "Validate",
+        title: "Validate",
+        purpose: "Current focus",
+        whatWeExplore: "We are confirming which restaurant problems are real, urgent, and worth solving before we build anything that feels like product infrastructure.",
+        whyItMatters: "This stage keeps us honest: the product should be shaped by actual operational pain, not by excitement around AI alone.",
+        openQuestion: "What operational issues matter most to Gulf restaurant owners when the business is under pressure?",
+        capabilityFocus: ["operations", "analytics", "customerExperience"],
+      },
+      explore: {
+        label: "Explore",
+        title: "Explore",
+        purpose: "Research and understanding",
+        whatWeExplore: "We are mapping workflows, information gaps, and regional requirements across operations, service, and decision-making.",
+        whyItMatters: "A strong concept requires real understanding of where the bottlenecks are and what a restaurant team actually needs to see.",
+        openQuestion: "Which signals are essential for a restaurant manager to act on in real time?",
+        capabilityFocus: ["operations", "analytics", "ai"],
+      },
+      prototype: {
+        label: "Prototype",
+        title: "Prototype",
+        purpose: "Testable concept",
+        whatWeExplore: "We turn promising ideas into tangible experiences that explain the product concept without pretending they are production systems.",
+        whyItMatters: "Prototype work lets us learn which interactions are genuinely useful and which ones feel decorative or confusing.",
+        openQuestion: "What experience makes the concept understandable and credible to a potential user?",
+        capabilityFocus: ["ai", "operations", "customerExperience"],
+      },
+      pilot: {
+        label: "Pilot",
+        title: "Pilot",
+        purpose: "Real-world learning",
+        whatWeExplore: "A validated concept may be tested with real restaurant teams to understand usefulness, friction, and operational fit.",
+        whyItMatters: "A pilot is where we learn whether the concept actually improves decisions and reduces operational strain.",
+        openQuestion: "What would a real pilot need before it is ready to scale?",
+        capabilityFocus: ["analytics", "compliance", "payments"],
+      },
+      build: {
+        label: "Build",
+        title: "Build",
+        purpose: "Product maturity",
+        whatWeExplore: "Only after validation do we scale the capabilities that clearly deserve a full product investment.",
+        whyItMatters: "This stage represents a real platform ambition, not a speculative roadmap claim.",
+        openQuestion: "Which features have earned the right to become a real product investment?",
+        capabilityFocus: ["operations", "payments", "compliance", "ai"],
+      },
+    },
+    capabilityModel: {
+      title: "Capability model",
+      description: "Relevant capability areas for this stage",
+      areas: {
+        operations: { name: "Operations", brief: "Service flow, staffing pressure, and daily restaurant execution." },
+        analytics: { name: "Analytics", brief: "Operational visibility and signal interpretation across restaurant performance." },
+        ai: { name: "AI", brief: "Decision support, synthesis, and future restaurant intelligence." },
+        compliance: { name: "Compliance", brief: "Regional requirements and operational reporting as the product matures." },
+        payments: { name: "Payments", brief: "Gulf payment and financial workflow context for future product expansion." },
+        customerExperience: { name: "Customer experience", brief: "Wait-time, service quality, and experience consistency conversations." },
+      },
     },
   },
   insights: {

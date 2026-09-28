@@ -13,7 +13,7 @@ import { trackEarlyAccessClick, trackLoginClick } from "@/lib/analytics";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useLocale } from "@/components/providers/locale-provider";
 import { useDictionary } from "@/components/providers/locale-provider";
-import { LOCALES, localePath, type Locale } from "@/lib/i18n";
+import { localePath, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const localeOptions: { value: Locale; label: string }[] = [
@@ -140,7 +140,13 @@ export function Header() {
                 onClick={() => setAccountOpen((current) => !current)}
               >
                 {user.photoURL ? (
-                  <img src={user.photoURL} alt="" className="size-7 rounded-full object-cover" />
+                  <Image
+                    src={user.photoURL}
+                    alt=""
+                    width={28}
+                    height={28}
+                    className="size-7 rounded-full object-cover"
+                  />
                 ) : (
                   <span className="flex size-7 items-center justify-center rounded-full bg-gold/15 text-xs font-bold text-gold">
                     {accountInitial}

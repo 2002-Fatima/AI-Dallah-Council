@@ -158,6 +158,64 @@ export interface Dictionary {
     subscribeTitle: string;
     subscribeDescription: string;
     earlyAccess: string;
+    conceptSimulation: string;
+    heroTitle: string;
+    stepLabel: string;
+    signalLabel: string;
+    nextAction: string;
+    ctaRoadmap: string;
+    ctaEarlyAccess: string;
+    summaryLabel: string;
+    summaryTitle: string;
+    summaryPoints: readonly string[];
+    futureLabel: string;
+    futureText: string;
+    situation: {
+      title: string;
+      description: string;
+      highlight: string;
+    };
+    signals: {
+      title: string;
+      description: string;
+      reservationPressure: string;
+      expectedDemand: string;
+      kitchenLoad: string;
+      customerWaitRisk: string;
+      details: {
+        reservationPressure: string;
+        expectedDemand: string;
+        kitchenLoad: string;
+        customerWaitRisk: string;
+      };
+    };
+    council: {
+      title: string;
+      description: string;
+      label: string;
+      perspectives: {
+        operations: { title: string; description: string };
+        business: { title: string; description: string };
+        customer: { title: string; description: string };
+      };
+    };
+    synthesis: {
+      title: string;
+      description: string;
+      label: string;
+      text: string;
+    };
+    recommendation: {
+      title: string;
+      description: string;
+      label: string;
+      text: string;
+      footer: string;
+    };
+    humanDecision: {
+      title: string;
+      text: string;
+    };
   };
   roadmap: {
     metadata: { title: string; description: string };
@@ -168,10 +226,34 @@ export interface Dictionary {
       planned: string;
       itemCount: string;
     };
+    currentStageLabel: string;
     items: {
       completed: readonly RoadmapEntryMessages[];
       inProgress: readonly RoadmapEntryMessages[];
       planned: readonly RoadmapEntryMessages[];
+    };
+    timeline: Record<
+      "validate" | "explore" | "prototype" | "pilot" | "build",
+      {
+        label: string;
+        title: string;
+        purpose: string;
+        whatWeExplore: string;
+        whyItMatters: string;
+        openQuestion: string;
+        capabilityFocus: readonly string[];
+      }
+    >;
+    capabilityModel: {
+      title: string;
+      description: string;
+      areas: Record<
+        "operations" | "analytics" | "ai" | "compliance" | "payments" | "customerExperience",
+        {
+          name: string;
+          brief: string;
+        }
+      >;
     };
   };
   insights: {
